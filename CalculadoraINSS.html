@@ -567,31 +567,7 @@ a:active {
                 }
             });
             
-            // Função para enviar resumo por e-mail (simulado)
-            function sendEmailSummary() {
-                // Em uma implementação real, isso seria uma chamada AJAX para o servidor
-                console.log('Enviando resumo para:', email.value);
-                
-                const summary = `
-                    Resumo do Cálculo de Custo de Obra:
-                    
-                    Destinação: ${destination.options[destination.selectedIndex].text}
-                    Área Construída Total: ${totalBuiltArea.textContent} m²
-                    Área Equivalente: ${equivalentArea.textContent} m²
-                    Custo de Obra por Destinação: ${constructionCost.textContent}
-                    Abatimento por concreto usinado: ${concreteDiscount.textContent}
-                    Remuneração de Mão de Obra Total: ${totalLaborRemuneration.textContent}
-                    Base de Cálculo: ${calculationBase.textContent}
-                    CPP: ${cpp.textContent}
-                `;
-                
-                console.log(summary);
-                alert(`Um resumo foi enviado para ${email.value}`);
-            }
-            
-            // Calcula tudo ao carregar a página para inicializar os valores
-            calculateAll();
-        });
     </script>
 </body>
+
 </html>
