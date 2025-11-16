@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário Multistep - Cálculo de Custos</title>
+    <title>Calculadora de INSS de Obras - Herman Pedroso</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -426,7 +427,7 @@
                 <!-- Passo 3: Custos -->
                 <div class="form-step" id="step3">
                     <div class="form-group">
-                        <label for="vau">VAU (R$) *</label><a href="https://calculadoradeinss.netlify.app/tabelavau.html" target="_blank" rel="noopener noreferrer">Acesse a tabela VAU</a>
+                        <label for="vau">VAU (R$) * <a href="https://calculadoradeinss.netlify.app/tabelavau.html" target="_blank" rel="noopener noreferrer">Acesse a tabela VAU</a> </label>
                         <div class="currency-input">
                             <input type="number" id="vau" name="vau" step="0.01" min="0" required placeholder="Digite o valor do VAU">
                         </div>
@@ -518,8 +519,10 @@
                     
                     <div class="form-group">
                         <label for="cpp">Contribuição Patronal Previdenciária (CPP) (R$)</label>
+
                         <div class="currency-input">
                             <input type="text" id="cpp" name="cpp" readonly class="currency-display">
+<small>Este é o valor que você pagará de INSS com aplicação do Fator de Ajuste.</small>
                         </div>
                     </div>
 
