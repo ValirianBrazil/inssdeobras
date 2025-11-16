@@ -3,342 +3,365 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de INSS de Obras - Por Herman Pedroso</title>
+    <title>Calculadora de INSS de Obras - Herman Pedroso</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --success-color: #2ecc71;
-            --warning-color: #f39c12;
-            --danger-color: #e74c3c;
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
             --light-color: #ecf0f1;
-            --dark-color: #34495e;
+            --success-color: #2ecc71;
             --border-radius: 8px;
             --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Roboto', sans-serif;
         }
-
+        
         body {
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
+            padding: 20px;
         }
-
+        
         .container {
             max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .form-card {
-            background: white;
+            margin: 0 auto;
+            background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            padding: 2rem;
-            margin-bottom: 2rem;
+            overflow: hidden;
         }
-
-        .form-header {
+        
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
             text-align: center;
-            margin-bottom: 2rem;
         }
-
-        .form-header h1 {
-            color: var(--secondary-color);
-            margin-bottom: 0.5rem;
+        
+        .header h1 {
+            font-weight: 500;
+            margin-bottom: 10px;
         }
-
-        .form-header p {
-            color: #7f8c8d;
-        }
-
-        .progress-bar {
+        
+        .steps {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 2rem;
+            padding: 20px;
+            background-color: var(--light-color);
+        }
+        
+        .step {
+            text-align: center;
+            flex: 1;
             position: relative;
         }
-
-        .progress-bar::before {
+        
+        .step:not(:last-child)::after {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background-color: #e0e0e0;
-            transform: translateY(-50%);
+            top: 15px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background-color: #bdc3c7;
             z-index: 1;
         }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            height: 4px;
-            background-color: var(--primary-color);
-            transform: translateY(-50%);
-            z-index: 2;
-            transition: var(--transition);
-            width: 0%;
+        
+        .step.active:not(:last-child)::after {
+            background-color: var(--secondary-color);
         }
-
-        .step {
+        
+        .step-circle {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #e0e0e0;
+            background-color: #bdc3c7;
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
+            margin: 0 auto 10px;
             position: relative;
-            z-index: 3;
-            transition: var(--transition);
+            z-index: 2;
         }
-
-        .step.active {
-            background-color: var(--primary-color);
+        
+        .step.active .step-circle {
+            background-color: var(--secondary-color);
         }
-
-        .step.completed {
+        
+        .step.completed .step-circle {
             background-color: var(--success-color);
         }
-
+        
         .step-label {
-            position: absolute;
-            top: 45px;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            font-size: 0.8rem;
-            color: #7f8c8d;
+            font-size: 14px;
+            font-weight: 500;
         }
-
-        .step.active .step-label {
-            color: var(--primary-color);
-            font-weight: bold;
+        
+        .form-container {
+            padding: 30px;
         }
-
+        
         .form-step {
             display: none;
         }
-
+        
         .form-step.active {
             display: block;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.5s ease-in-out;
         }
-
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
+        
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
         }
-
+        
         label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 8px;
             font-weight: 500;
-            color: var(--secondary-color);
         }
-
-        .required::after {
-            content: ' *';
-            color: var(--danger-color);
-        }
-
+        
         input, select {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 12px;
             border: 1px solid #ddd;
             border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: var(--transition);
+            font-size: 16px;
+            transition: border-color 0.3s;
         }
-
+        
         input:focus, select:focus {
+            border-color: var(--secondary-color);
             outline: none;
-            border-color: var(--primary-color);
             box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
         }
-
-        input[readonly] {
+        
+        input:read-only {
             background-color: #f8f9fa;
             color: #6c757d;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        .form-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
             cursor: not-allowed;
         }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
         }
-
-        .btn-primary:hover:not(:disabled) {
-            background-color: #2980b9;
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-
-        .btn-secondary {
+        
+        .btn-prev {
             background-color: #95a5a6;
             color: white;
         }
-
-        .btn-secondary:hover:not(:disabled) {
-            background-color: #7f8c8d;
-        }
-
-        .btn-success {
-            background-color: var(--success-color);
+        
+        .btn-next, .btn-submit {
+            background-color: var(--secondary-color);
             color: white;
         }
-
-        .btn-success:hover:not(:disabled) {
+        
+        .btn-prev:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .btn-next:hover, .btn-submit:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-submit {
+            background-color: var(--success-color);
+        }
+        
+        .btn-submit:hover {
             background-color: #27ae60;
         }
-
-        .external-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.9rem;
-            margin-left: 0.5rem;
-        }
-
-        .external-link:hover {
-            text-decoration: underline;
-        }
-
-        .separator {
-            height: 1px;
-            background-color: #e0e0e0;
-            margin: 2rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-weight: bold;
-            margin: 1.5rem 0;
-            color: var(--secondary-color);
-        }
-
-        .contact-info {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e0e0e0;
-            color: #7f8c8d;
-        }
-
+        
         .currency-input {
             position: relative;
         }
-
+        
         .currency-input::before {
             content: 'R$';
             position: absolute;
             left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #7f8c8d;
+            top: 12px;
+            color: #6c757d;
         }
-
+        
         .currency-input input {
-            padding-left: 2.5rem;
+            padding-left: 40px;
         }
-
-        .error-message {
-            color: var(--danger-color);
-            font-size: 0.8rem;
-            margin-top: 0.25rem;
+        
+        .separator {
+            height: 1px;
+            background-color: #ddd;
+            margin: 30px 0;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-bold {
+            font-weight: 700;
+        }
+        
+        .text-uppercase {
+            text-transform: uppercase;
+        }
+        
+        .contact-info {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+        
+        .result-field {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .loading {
             display: none;
+            text-align: center;
+            padding: 10px;
+            color: var(--secondary-color);
         }
-
+        
+        .loading.spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--secondary-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            color: var(--accent-color);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .vau-auto {
+            background-color: #e8f5e8 !important;
+            border-color: #2ecc71 !important;
+        }
+        
+        .vau-manual {
+            background-color: #fff3cd !important;
+            border-color: #ffc107 !important;
+        }
+        
+        .success-message {
+            color: #2ecc71;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .pdf-loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            margin: 10px 0;
+        }
+        
         @media (max-width: 768px) {
-            .form-row {
+            .steps {
                 flex-direction: column;
-                gap: 0;
+                gap: 15px;
             }
-
-            .step-label {
+            
+            .step:not(:last-child)::after {
                 display: none;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            button {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="form-card">
-            <div class="form-header">
-                <h1>Cálculo de Custos de Construção</h1>
-                <p>Preencha as informações abaixo para calcular os custos da sua obra</p>
+        <div class="header">
+            <h1>Cálculo de Custos de Construção</h1>
+            <p>Preencha as informações abaixo para calcular os custos da sua obra</p>
+        </div>
+        
+        <div class="steps">
+            <div class="step active" id="step1-indicator">
+                <div class="step-circle">1</div>
+                <div class="step-label">Informações Básicas</div>
             </div>
-
-            <div class="progress-bar">
-                <div class="step active" id="step1">
-                    <span>1</span>
-                    <div class="step-label">Destinação</div>
-                </div>
-                <div class="step" id="step2">
-                    <span>2</span>
-                    <div class="step-label">Áreas</div>
-                </div>
-                <div class="step" id="step3">
-                    <span>3</span>
-                    <div class="step-label">Custos</div>
-                </div>
-                <div class="step" id="step4">
-                    <span>4</span>
-                    <div class="step-label">Ajustes</div>
-                </div>
+            <div class="step" id="step2-indicator">
+                <div class="step-circle">2</div>
+                <div class="step-label">Áreas</div>
             </div>
-
-            <form id="multistep-form">
-                <!-- Passo 1: Destinação e Método Construtivo -->
-                <div class="form-step active" id="step1-form">
+            <div class="step" id="step3-indicator">
+                <div class="step-circle">3</div>
+                <div class="step-label">Custos</div>
+            </div>
+            <div class="step" id="step4-indicator">
+                <div class="step-circle">4</div>
+                <div class="step-label">Fator de Ajuste</div>
+            </div>
+        </div>
+        
+        <form id="multistep-form">
+            <div class="form-container">
+                <!-- Passo 1: Informações Básicas -->
+                <div class="form-step active" id="step1">
                     <div class="form-group">
-                        <label for="destinacao" class="required">Destinação</label>
+                        <label for="destinacao">Destinação *</label>
                         <select id="destinacao" name="destinacao" required>
                             <option value="">Selecione uma opção</option>
                             <option value="Unifamiliar">Unifamiliar</option>
@@ -348,549 +371,572 @@
                             <option value="Conjunto Habitacional Popular">Conjunto Habitacional Popular</option>
                             <option value="Casa Popular">Casa Popular</option>
                         </select>
-                        <div class="error-message" id="destinacao-error">Este campo é obrigatório</div>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="metodo-construtivo" class="required">Método Construtivo</label>
+                        <label for="metodo-construtivo">Método Construtivo *</label>
                         <select id="metodo-construtivo" name="metodo-construtivo" required>
                             <option value="">Selecione uma opção</option>
                             <option value="Alvenaria">Alvenaria</option>
                             <option value="Mista/Madeira">Mista/Madeira</option>
                         </select>
-                        <div class="error-message" id="metodo-construtivo-error">Este campo é obrigatório</div>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="estado" class="required">Estado</label>
+                        <label for="estado">Estado *</label>
                         <select id="estado" name="estado" required>
                             <option value="">Selecione um estado</option>
-                            <option value="AC">Acre</option>
-                            <option value="AL">Alagoas</option>
-                            <option value="AP">Amapá</option>
-                            <option value="AM">Amazonas</option>
-                            <option value="BA">Bahia</option>
-                            <option value="CE">Ceará</option>
-                            <option value="DF">Distrito Federal</option>
-                            <option value="ES">Espírito Santo</option>
-                            <option value="GO">Goiás</option>
-                            <option value="MA">Maranhão</option>
-                            <option value="MT">Mato Grosso</option>
-                            <option value="MS">Mato Grosso do Sul</option>
-                            <option value="MG">Minas Gerais</option>
-                            <option value="PA">Pará</option>
-                            <option value="PB">Paraíba</option>
-                            <option value="PR">Paraná</option>
-                            <option value="PE">Pernambuco</option>
-                            <option value="PI">Piauí</option>
-                            <option value="RJ">Rio de Janeiro</option>
-                            <option value="RN">Rio Grande do Norte</option>
-                            <option value="RS">Rio Grande do Sul</option>
-                            <option value="RO">Rondônia</option>
-                            <option value="RR">Roraima</option>
-                            <option value="SC">Santa Catarina</option>
-                            <option value="SP">São Paulo</option>
-                            <option value="SE">Sergipe</option>
-                            <option value="TO">Tocantins</option>
+                            <!-- Estados serão preenchidos via JavaScript -->
                         </select>
-                        <div class="error-message" id="estado-error">Este campo é obrigatório</div>
                     </div>
-
-                    <div class="form-actions">
-                        <div></div> <!-- Espaço vazio para alinhar o botão à direita -->
-                        <button type="button" class="btn btn-primary" id="next-step-1">Próximo</button>
+                    
+                    <div class="buttons">
+                        <div></div>
+                        <button type="button" class="btn-next" id="next1">Próximo</button>
                     </div>
                 </div>
-
+                
                 <!-- Passo 2: Áreas -->
-                <div class="form-step" id="step2-form">
+                <div class="form-step" id="step2">
                     <div class="form-group">
-                        <label for="area-principal" class="required">Área Construída Principal (m²)</label>
-                        <input type="number" id="area-principal" name="area-principal" min="0" step="0.01" required>
-                        <div class="error-message" id="area-principal-error">Este campo é obrigatório</div>
+                        <label for="area-principal">Área Construída Principal (m²) *</label>
+                        <input type="number" id="area-principal" name="area-principal" step="0.01" min="0" required>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="area-complementar-coberta">Área Construída Complementar Coberta (m²)</label>
-                        <input type="number" id="area-complementar-coberta" name="area-complementar-coberta" min="0" step="0.01">
+                        <input type="number" id="area-complementar-coberta" name="area-complementar-coberta" step="0.01" min="0">
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="area-complementar-descoberta">Área Construída Complementar Descoberta (m²)</label>
-                        <input type="number" id="area-complementar-descoberta" name="area-complementar-descoberta" min="0" step="0.01">
+                        <input type="number" id="area-complementar-descoberta" name="area-complementar-descoberta" step="0.01" min="0">
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="area-total">Área Construída Total (m²)</label>
                         <input type="number" id="area-total" name="area-total" readonly>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="percentual-equivalencia">Percentual de Equivalência (%)</label>
+                        <label for="percentual-equivalencia">Percentual de Equivalência</label>
                         <input type="text" id="percentual-equivalencia" name="percentual-equivalencia" readonly>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="area-equivalente">Área Equivalente (m²)</label>
-                        <input type="number" id="area-equivalente" name="area-equivalente" readonly>
+                        <input type="number" id="area-equivalent" name="area-equivalente" readonly>
                     </div>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="prev-step-2">Voltar</button>
-                        <button type="button" class="btn btn-primary" id="next-step-2">Próximo</button>
+                    
+                    <div class="buttons">
+                        <button type="button" class="btn-prev" id="prev2">Anterior</button>
+                        <button type="button" class="btn-next" id="next2">Próximo</button>
                     </div>
                 </div>
-
+                
                 <!-- Passo 3: Custos -->
-                <div class="form-step" id="step3-form">
+                <div class="form-step" id="step3">
                     <div class="form-group">
-                        <label for="vau" class="required">VAU</label>
+                        <label for="vau">VAU (R$)</label>
                         <div class="currency-input">
-                            <input type="number" id="vau" name="vau" min="0" step="0.01" required>
+                            <input type="number" id="vau" name="vau" step="0.01" min="0">
                         </div>
-                        <a href="https://calculadoradeinss.netlify.app/tabelavau.html" 
-                           target="_blank" class="external-link">Acessar Tabela VAU</a>
-                        <div class="error-message" id="vau-error">Este campo é obrigatório</div>
+                        <div class="loading" id="vau-loading">
+                            <div class="spinner"></div>
+                            <p>Buscando VAU na planilha...</p>
+                        </div>
+                        <div class="error-message" id="vau-error"></div>
+                        <small>O VAU será preenchido automaticamente com base na Destinação e Estado selecionados</small>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="custo-destinacao">Custo por Destinação</label>
-                        <input type="text" id="custo-destinacao" name="custo-destinacao" readonly>
+                        <label for="custo-destinacao">Custo por Destinação (R$)</label>
+                        <div class="currency-input">
+                            <input type="number" id="custo-destinacao" name="custo-destinacao" readonly>
+                        </div>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="fator-social">Fator Social (%)</label>
+                        <label for="fator-social">Fator Social</label>
                         <input type="text" id="fator-social" name="fator-social" readonly>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="pmo">PMO (Percentual de Mão de Obra sobre o Custo da Obra) (%)</label>
+                        <label for="pmo">PMO (Percentual de Mão de Obra sobre o Custo da Obra)</label>
                         <input type="text" id="pmo" name="pmo" readonly>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="remuneracao-mao-obra">Remuneração de Mão de Obra Total</label>
-                        <input type="text" id="remuneracao-mao-obra" name="remuneracao-mao-obra" readonly>
+                        <label for="remuneracao-mao-obra">Remuneração de Mão de Obra Total (R$)</label>
+                        <div class="currency-input">
+                            <input type="number" id="remuneracao-mao-obra" name="remuneracao-mao-obra" readonly>
+                        </div>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="inss-recolher">INSS a Recolher</label>
-                        <input type="text" id="inss-recolher" name="inss-recolher" readonly>
+                        <label for="inss-recolher">INSS a Recolher (R$)</label>
+                        <div class="currency-input">
+                            <input type="number" id="inss-recolher" name="inss-recolher" readonly>
+                        </div>
                     </div>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="prev-step-3">Voltar</button>
-                        <button type="button" class="btn btn-primary" id="next-step-3">Próximo</button>
+                    
+                    <div class="buttons">
+                        <button type="button" class="btn-prev" id="prev3">Anterior</button>
+                        <button type="button" class="btn-next" id="next3">Próximo</button>
                     </div>
                 </div>
-
-                <!-- Passo 4: Ajustes -->
-                <div class="form-step" id="step4-form">
-                    <div class="section-title">Fator de Ajuste</div>
-
-                    <div class="form-group">
-                        <label for="remuneracao-mao-obra-copy">Remuneração de Mão de Obra Total</label>
-                        <input type="text" id="remuneracao-mao-obra-copy" name="remuneracao-mao-obra-copy" readonly>
+                
+                <!-- Passo 4: Fator de Ajuste -->
+                <div class="form-step" id="step4">
+                    <div class="text-center">
+                        <h2 class="text-bold">Fator de Ajuste</h2>
                     </div>
-
+                    
+                    <div class="form-group">
+                        <label for="remuneracao-mao-obra-display">Remuneração de Mão de Obra Total (R$)</label>
+                        <div class="currency-input">
+                            <input type="number" id="remuneracao-mao-obra-display" name="remuneracao-mao-obra-display" readonly>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <label for="fator-ajuste-percentual">Fator de Ajuste (%)</label>
                         <input type="text" id="fator-ajuste-percentual" name="fator-ajuste-percentual" readonly>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="rmt-fa">RMT Para o FA</label>
-                        <input type="text" id="rmt-fa" name="rmt-fa" readonly>
+                        <label for="rmt-fa">RMT Para o FA (R$)</label>
+                        <div class="currency-input">
+                            <input type="number" id="rmt-fa" name="rmt-fa" readonly>
+                        </div>
                     </div>
-
+                    
                     <div class="separator"></div>
-
-                    <div class="section-title">APLICAÇÃO DO FATOR DE AJUSTE</div>
-
+                    
+                    <div class="text-center">
+                        <h3 class="text-uppercase">Aplicação do Fator de Ajuste</h3>
+                    </div>
+                    
                     <div class="form-group">
-                        <label for="fator-ajuste">Fator de Ajuste</label>
-                        <input type="text" id="fator-ajuste" name="fator-ajuste" readonly>
+                        <label for="fator-ajuste-valor">Fator de Ajuste (R$)</label>
+                        <div class="currency-input">
+                            <input type="number" id="fator-ajuste-valor" name="fator-ajuste-valor" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rmt-fa-display">RMT para o FA (R$)</label>
+                        <div class="currency-input">
+                            <input type="number" id="rmt-fa-display" name="rmt-fa-display" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cpp">Contribuição Patronal Previdenciária (CPP) (R$)</label>
+                        <div class="currency-input">
+                            <input type="number" id="cpp" name="cpp" readonly>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="rmt-fa-copy">RMT para o FA</label>
-                        <input type="text" id="rmt-fa-copy" name="rmt-fa-copy" readonly>
+                    <div class="pdf-loading" id="pdf-loading">
+                        <div class="spinner"></div>
+                        <p>Gerando PDF, aguarde...</p>
                     </div>
-
-                    <div class="form-group">
-                        <label for="cpp">Contribuição Patronal Previdenciária (CPP)</label>
-                        <input type="text" id="cpp" name="cpp" readonly>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="prev-step-4">Voltar</button>
-                        <button type="button" class="btn btn-success" id="generate-pdf">Gerar PDF</button>
+                    
+                    <div class="buttons">
+                        <button type="button" class="btn-prev" id="prev4">Anterior</button>
+                        <button type="button" class="btn-submit" id="generate-pdf">Gerar PDF</button>
                     </div>
                 </div>
-            </form>
-
-            <div class="contact-info">
-                E-mail: contatoinssobra@gmail.com | Tel: 35 9 9911-9922
             </div>
+        </form>
+        
+        <div class="contact-info">
+            <p>E-mail: contatoinssobra@gmail.com | Tel: 35 9 9911-9922</p>
         </div>
     </div>
 
     <script>
-        // Variáveis globais
-        let currentStep = 1;
-        const totalSteps = 4;
-
-        // Elementos DOM
-        const stepElements = document.querySelectorAll('.step');
-        const formStepElements = document.querySelectorAll('.form-step');
-        const progressBar = document.querySelector('.progress-bar');
-
-        // Função para formatar moeda
-        function formatCurrency(value) {
-            return new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL'
-            }).format(value);
+        // URL da API do Google Apps Script (substitua pela sua URL)
+        const API_URL = 'SUA_URL_DO_GOOGLE_APPS_SCRIPT_AQUI';
+        
+        // Estados brasileiros
+        const estados = [
+            "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", 
+            "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", 
+            "RS", "RO", "RR", "SC", "SP", "SE", "TO"
+        ];
+        
+        // Preencher o select de estados
+        const estadoSelect = document.getElementById('estado');
+        estados.forEach(estado => {
+            const option = document.createElement('option');
+            option.value = estado;
+            option.textContent = estado;
+            estadoSelect.appendChild(option);
+        });
+        
+        // Navegação entre passos
+        const steps = document.querySelectorAll('.form-step');
+        const stepIndicators = document.querySelectorAll('.step');
+        let currentStep = 0;
+        
+        // Botões de navegação
+        document.getElementById('next1').addEventListener('click', () => navigateToStep(1));
+        document.getElementById('prev2').addEventListener('click', () => navigateToStep(0));
+        document.getElementById('next2').addEventListener('click', () => navigateToStep(2));
+        document.getElementById('prev3').addEventListener('click', () => navigateToStep(1));
+        document.getElementById('next3').addEventListener('click', () => navigateToStep(3));
+        document.getElementById('prev4').addEventListener('click', () => navigateToStep(2));
+        
+        // Buscar VAU automaticamente quando Destinação ou Estado mudarem
+        document.getElementById('destinacao').addEventListener('change', fetchVAU);
+        document.getElementById('estado').addEventListener('change', fetchVAU);
+        
+        async function fetchVAU() {
+            const destinacao = document.getElementById('destinacao').value;
+            const estado = document.getElementById('estado').value;
+            const vauInput = document.getElementById('vau');
+            const loadingElement = document.getElementById('vau-loading');
+            const errorElement = document.getElementById('vau-error');
+            
+            // Resetar estados
+            errorElement.textContent = '';
+            vauInput.classList.remove('vau-auto', 'vau-manual');
+            
+            if (!destinacao || !estado) {
+                return;
+            }
+            
+            // Mostrar loading
+            loadingElement.style.display = 'block';
+            
+            try {
+                const response = await fetch(`${API_URL}?estado=${encodeURIComponent(estado)}&destinacao=${encodeURIComponent(destinacao)}`);
+                const data = await response.json();
+                
+                if (data.success && data.vau !== undefined) {
+                    vauInput.value = data.vau;
+                    vauInput.classList.add('vau-auto');
+                    errorElement.textContent = '';
+                    // Disparar evento para calcular custos automaticamente
+                    vauInput.dispatchEvent(new Event('input'));
+                } else {
+                    errorElement.textContent = data.error || 'VAU não encontrado para esta combinação';
+                    vauInput.classList.add('vau-manual');
+                    vauInput.placeholder = 'Preencha manualmente';
+                }
+            } catch (error) {
+                console.error('Erro ao buscar VAU:', error);
+                errorElement.textContent = 'Erro ao conectar com a planilha. Preencha o VAU manualmente.';
+                vauInput.classList.add('vau-manual');
+                vauInput.placeholder = 'Preencha manualmente';
+            } finally {
+                loadingElement.style.display = 'none';
+            }
         }
-
-        // Função para formatar porcentagem
-        function formatPercentage(value) {
-            return `${value.toFixed(2)}%`;
-        }
-
-        // Função para atualizar a barra de progresso
-        function updateProgressBar() {
-            const progressPercentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
-            progressBar.style.setProperty('--progress-width', `${progressPercentage}%`);
-
-            stepElements.forEach((step, index) => {
-                if (index + 1 < currentStep) {
-                    step.classList.add('completed');
-                    step.classList.remove('active');
-                } else if (index + 1 === currentStep) {
+        
+        function navigateToStep(stepIndex) {
+            // Validação antes de avançar
+            if (stepIndex > currentStep) {
+                if (!validateStep(currentStep)) {
+                    return;
+                }
+                
+                // Calcular áreas se estamos indo para o passo 2
+                if (stepIndex === 1) {
+                    calculateAreas();
+                }
+                
+                // Calcular custos se estamos indo para o passo 3
+                if (stepIndex === 2) {
+                    calculateCosts();
+                }
+                
+                // Calcular fator de ajuste se estamos indo para o passo 4
+                if (stepIndex === 3) {
+                    calculateAdjustmentFactor();
+                }
+            }
+            
+            // Atualizar a exibição dos passos
+            steps.forEach((step, index) => {
+                if (index === stepIndex) {
                     step.classList.add('active');
-                    step.classList.remove('completed');
+                    stepIndicators[index].classList.add('active');
                 } else {
-                    step.classList.remove('active', 'completed');
+                    step.classList.remove('active');
+                    stepIndicators[index].classList.remove('active');
                 }
             });
-        }
-
-        // Função para mostrar um passo específico
-        function showStep(stepNumber) {
-            formStepElements.forEach(step => {
-                step.classList.remove('active');
-            });
-
-            const currentFormStep = document.getElementById(`step${stepNumber}-form`);
-            if (currentFormStep) {
-                currentFormStep.classList.add('active');
+            
+            // Marcar passos anteriores como completos
+            for (let i = 0; i < stepIndex; i++) {
+                stepIndicators[i].classList.add('completed');
             }
-
-            currentStep = stepNumber;
-            updateProgressBar();
+            
+            currentStep = stepIndex;
         }
-
-        // Função para validar o passo atual
-        function validateStep(stepNumber) {
-            let isValid = true;
-
-            if (stepNumber === 1) {
-                const destinacao = document.getElementById('destinacao');
-                const metodoConstrutivo = document.getElementById('metodo-construtivo');
-                const estado = document.getElementById('estado');
-
-                if (!destinacao.value) {
-                    document.getElementById('destinacao-error').style.display = 'block';
-                    isValid = false;
-                } else {
-                    document.getElementById('destinacao-error').style.display = 'none';
-                }
-
-                if (!metodoConstrutivo.value) {
-                    document.getElementById('metodo-construtivo-error').style.display = 'block';
-                    isValid = false;
-                } else {
-                    document.getElementById('metodo-construtivo-error').style.display = 'none';
-                }
-
-                if (!estado.value) {
-                    document.getElementById('estado-error').style.display = 'block';
-                    isValid = false;
-                } else {
-                    document.getElementById('estado-error').style.display = 'none';
-                }
-            } else if (stepNumber === 2) {
-                const areaPrincipal = document.getElementById('area-principal');
-                if (!areaPrincipal.value || parseFloat(areaPrincipal.value) <= 0) {
-                    document.getElementById('area-principal-error').style.display = 'block';
-                    isValid = false;
-                } else {
-                    document.getElementById('area-principal-error').style.display = 'none';
-                }
-            } else if (stepNumber === 3) {
-                const vau = document.getElementById('vau');
-                if (!vau.value || parseFloat(vau.value) <= 0) {
-                    document.getElementById('vau-error').style.display = 'block';
-                    isValid = false;
-                } else {
-                    document.getElementById('vau-error').style.display = 'none';
+        
+        function validateStep(stepIndex) {
+            const currentStepElement = steps[stepIndex];
+            const requiredFields = currentStepElement.querySelectorAll('[required]');
+            
+            for (let field of requiredFields) {
+                if (!field.value) {
+                    alert(`Por favor, preencha o campo: ${field.previousElementSibling.textContent}`);
+                    field.focus();
+                    return false;
                 }
             }
-
-            return isValid;
+            
+            return true;
         }
-
-        // Função para calcular a área total
-        function calculateTotalArea() {
+        
+        // Cálculo de áreas (Passo 2)
+        function calculateAreas() {
             const areaPrincipal = parseFloat(document.getElementById('area-principal').value) || 0;
             const areaCoberta = parseFloat(document.getElementById('area-complementar-coberta').value) || 0;
             const areaDescoberta = parseFloat(document.getElementById('area-complementar-descoberta').value) || 0;
             
-            const totalArea = areaPrincipal + areaCoberta + areaDescoberta;
-            document.getElementById('area-total').value = totalArea.toFixed(2);
+            // Calcular área total
+            const areaTotal = areaPrincipal + areaCoberta + areaDescoberta;
+            document.getElementById('area-total').value = areaTotal.toFixed(2);
             
-            return totalArea;
-        }
-
-        // Função para calcular o percentual de equivalência
-        function calculateEquivalencePercentage(destinacao, totalArea) {
-            let percentage = 0;
+            // Calcular percentual de equivalência
+            const destinacao = document.getElementById('destinacao').value;
+            let percentualEquivalencia = 0;
             
             switch(destinacao) {
                 case 'Unifamiliar':
-                    percentage = totalArea <= 1000 ? 89 : 85;
+                    percentualEquivalencia = areaTotal <= 1000 ? 89 : 85;
                     break;
                 case 'Multifamiliar':
-                    percentage = totalArea <= 1000 ? 90 : 86.5;
+                    percentualEquivalencia = areaTotal <= 1000 ? 90 : 86.5;
                     break;
                 case 'Comercial Salas e Lojas':
-                    percentage = totalArea <= 3000 ? 86 : 83;
+                    percentualEquivalencia = areaTotal <= 3000 ? 86 : 83;
                     break;
                 case 'Galpão Industrial':
-                    percentage = 95;
+                    percentualEquivalencia = 95;
                     break;
                 case 'Conjunto Habitacional Popular':
                 case 'Casa Popular':
-                    percentage = 98;
+                    percentualEquivalencia = 98;
                     break;
-                default:
-                    percentage = 0;
             }
             
-            document.getElementById('percentual-equivalencia').value = formatPercentage(percentage);
-            return percentage;
-        }
-
-        // Função para calcular a área equivalente
-        function calculateEquivalentArea(totalArea, equivalencePercentage) {
-            const equivalentArea = totalArea * (equivalencePercentage / 100);
-            document.getElementById('area-equivalente').value = equivalentArea.toFixed(2);
-            return equivalentArea;
-        }
-
-        // Função para calcular o fator social
-        function calculateSocialFactor(totalArea) {
-            let factor = 0;
+            document.getElementById('percentual-equivalencia').value = `${percentualEquivalencia}%`;
             
-            if (totalArea <= 100) {
-                factor = 20;
-            } else if (totalArea <= 200) {
-                factor = 40;
-            } else if (totalArea <= 300) {
-                factor = 55;
-            } else if (totalArea <= 400) {
-                factor = 70;
-            } else {
-                factor = 90;
-            }
-            
-            document.getElementById('fator-social').value = formatPercentage(factor);
-            return factor;
+            // Calcular área equivalente
+            const areaEquivalente = areaTotal * (percentualEquivalencia / 100);
+            document.getElementById('area-equivalent').value = areaEquivalente.toFixed(2);
         }
-
-        // Função para calcular o PMO
-        function calculatePMO(destinacao, metodoConstrutivo) {
+        
+        // Event listeners para cálculo automático de áreas
+        document.getElementById('area-principal').addEventListener('input', calculateAreas);
+        document.getElementById('area-complementar-coberta').addEventListener('input', calculateAreas);
+        document.getElementById('area-complementar-descoberta').addEventListener('input', calculateAreas);
+        
+        // Cálculo de custos (Passo 3)
+        function calculateCosts() {
+            const vau = parseFloat(document.getElementById('vau').value) || 0;
+            const areaEquivalente = parseFloat(document.getElementById('area-equivalent').value) || 0;
+            const areaTotal = parseFloat(document.getElementById('area-total').value) || 0;
+            const destinacao = document.getElementById('destinacao').value;
+            const metodoConstrutivo = document.getElementById('metodo-construtivo').value;
+            
+            // Calcular custo por destinação
+            const custoDestinacao = vau * areaEquivalente;
+            document.getElementById('custo-destinacao').value = custoDestinacao.toFixed(2);
+            
+            // Calcular fator social
+            let fatorSocial = 0;
+            if (areaTotal <= 100) fatorSocial = 20;
+            else if (areaTotal <= 200) fatorSocial = 40;
+            else if (areaTotal <= 300) fatorSocial = 55;
+            else if (areaTotal <= 400) fatorSocial = 70;
+            else fatorSocial = 90;
+            
+            document.getElementById('fator-social').value = `${fatorSocial}%`;
+            
+            // Calcular PMO
             let pmo = 0;
-            
             if (destinacao === 'Casa Popular' || destinacao === 'Conjunto Habitacional Popular') {
                 pmo = metodoConstrutivo === 'Alvenaria' ? 12 : 7;
             } else {
                 pmo = metodoConstrutivo === 'Alvenaria' ? 20 : 15;
             }
             
-            document.getElementById('pmo').value = formatPercentage(pmo);
-            return pmo;
+            document.getElementById('pmo').value = `${pmo}%`;
+            
+            // Calcular remuneração de mão de obra total
+            const remuneracaoMaoObra = custoDestinacao * (fatorSocial / 100) * (pmo / 100);
+            document.getElementById('remuneracao-mao-obra').value = remuneracaoMaoObra.toFixed(2);
+            
+            // Calcular INSS a recolher
+            const inssRecolher = remuneracaoMaoObra * 0.368;
+            document.getElementById('inss-recolher').value = inssRecolher.toFixed(2);
         }
-
-        // Função para calcular o custo por destinação
-        function calculateCostByDestination(vau, equivalentArea) {
-            const cost = vau * equivalentArea;
-            document.getElementById('custo-destinacao').value = formatCurrency(cost);
-            return cost;
+        
+        // Event listener para cálculo automático de custos
+        document.getElementById('vau').addEventListener('input', calculateCosts);
+        
+        // Cálculo do fator de ajuste (Passo 4)
+        function calculateAdjustmentFactor() {
+            const remuneracaoMaoObra = parseFloat(document.getElementById('remuneracao-mao-obra').value) || 0;
+            const areaTotal = parseFloat(document.getElementById('area-total').value) || 0;
+            
+            // Exibir remuneração de mão de obra
+            document.getElementById('remuneracao-mao-obra-display').value = remuneracaoMaoObra.toFixed(2);
+            
+            // Calcular fator de ajuste percentual
+            const fatorAjustePercentual = areaTotal <= 350 ? 50 : 70;
+            document.getElementById('fator-ajuste-percentual').value = `${fatorAjustePercentual}%`;
+            
+            // Calcular RMT para o FA
+            const rmtFa = remuneracaoMaoObra * (fatorAjustePercentual / 100);
+            document.getElementById('rmt-fa').value = rmtFa.toFixed(2);
+            
+            // Exibir fator de ajuste
+            document.getElementById('fator-ajuste-valor').value = remuneracaoMaoObra.toFixed(2);
+            
+            // Exibir RMT para o FA
+            document.getElementById('rmt-fa-display').value = rmtFa.toFixed(2);
+            
+            // Calcular CPP
+            const cpp = rmtFa * 0.2;
+            document.getElementById('cpp').value = cpp.toFixed(2);
         }
-
-        // Função para calcular a remuneração de mão de obra
-        function calculateLaborRemuneration(costByDestination, socialFactor, pmo) {
-            const remuneration = costByDestination * (socialFactor / 100) * (pmo / 100);
-            document.getElementById('remuneracao-mao-obra').value = formatCurrency(remuneration);
-            document.getElementById('remuneracao-mao-obra-copy').value = formatCurrency(remuneration);
-            return remuneration;
-        }
-
-        // Função para calcular o INSS a recolher
-        function calculateINSS(laborRemuneration) {
-            const inss = laborRemuneration * 0.368;
-            document.getElementById('inss-recolher').value = formatCurrency(inss);
-            return inss;
-        }
-
-        // Função para calcular o fator de ajuste
-        function calculateAdjustmentFactor(totalArea) {
-            const factor = totalArea <= 350 ? 50 : 70;
-            document.getElementById('fator-ajuste-percentual').value = formatPercentage(factor);
-            return factor;
-        }
-
-        // Função para calcular o RMT para o FA
-        function calculateRMTForFA(laborRemuneration, adjustmentFactor) {
-            const rmtFA = laborRemuneration * (adjustmentFactor / 100);
-            document.getElementById('rmt-fa').value = formatCurrency(rmtFA);
-            document.getElementById('rmt-fa-copy').value = formatCurrency(rmtFA);
-            return rmtFA;
-        }
-
-        // Função para calcular o CPP
-        function calculateCPP(rmtFA) {
-            const cpp = rmtFA * 0.20;
-            document.getElementById('cpp').value = formatCurrency(cpp);
-            return cpp;
-        }
-
-        // Função para atualizar todos os cálculos
-        function updateCalculations() {
-            // Passo 2
-            const totalArea = calculateTotalArea();
-            const destinacao = document.getElementById('destinacao').value;
-            const equivalencePercentage = calculateEquivalencePercentage(destinacao, totalArea);
-            calculateEquivalentArea(totalArea, equivalencePercentage);
-            
-            // Passo 3
-            const vau = parseFloat(document.getElementById('vau').value) || 0;
-            const equivalentArea = parseFloat(document.getElementById('area-equivalente').value) || 0;
-            const costByDestination = calculateCostByDestination(vau, equivalentArea);
-            
-            const socialFactor = calculateSocialFactor(totalArea);
-            const metodoConstrutivo = document.getElementById('metodo-construtivo').value;
-            const pmo = calculatePMO(destinacao, metodoConstrutivo);
-            
-            const laborRemuneration = calculateLaborRemuneration(costByDestination, socialFactor, pmo);
-            calculateINSS(laborRemuneration);
-            
-            // Passo 4
-            const adjustmentFactor = calculateAdjustmentFactor(totalArea);
-            const rmtFA = calculateRMTForFA(laborRemuneration, adjustmentFactor);
-            calculateCPP(rmtFA);
-            
-            // Atualizar o campo Fator de Ajuste
-            document.getElementById('fator-ajuste').value = formatCurrency(rmtFA);
-        }
-
-        // Função para gerar PDF
-        function generatePDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // Dados do formulário
-            const destinacao = document.getElementById('destinacao').value;
-            const metodoConstrutivo = document.getElementById('metodo-construtivo').value;
-            const estado = document.getElementById('estado').value;
-            const areaTotal = document.getElementById('area-total').value;
-            const inssSemAjuste = document.getElementById('inss-recolher').value;
-            const inssComAjuste = document.getElementById('cpp').value;
-            const vau = document.getElementById('vau').value;
-            
-            // Cálculo da diferença
-            const inssSemAjusteNum = parseFloat(inssSemAjuste.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
-            const inssComAjusteNum = parseFloat(inssComAjuste.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
-            const diferenca = inssSemAjusteNum - inssComAjusteNum;
-            const economiaPercentual = inssSemAjusteNum > 0 ? (diferenca / inssSemAjusteNum) * 100 : 0;
-            
-            // Data e hora atual
-            const now = new Date();
-            const dataHora = now.toLocaleString('pt-BR');
-            
-            // Conteúdo do PDF
-            doc.setFontSize(16);
-            doc.text('Resumo de Cálculo de INSS de Obra', 20, 20);
-            
-            doc.setFontSize(12);
-            doc.text(`Data e Hora: ${dataHora}`, 20, 40);
-            doc.text(`Destinação: ${destinacao}`, 20, 50);
-            doc.text(`Método Construtivo: ${metodoConstrutivo}`, 20, 60);
-            doc.text(`Estado: ${estado}`, 20, 70);
-            doc.text(`Área Construída Total: ${areaTotal} m²`, 20, 80);
-            doc.text(`INSS sem o Fator de Ajuste: ${inssSemAjuste}`, 20, 90);
-            doc.text(`INSS com o Fator de Ajuste: ${inssComAjuste}`, 20, 100);
-            doc.text(`Diferença: ${formatCurrency(diferenca)}`, 20, 110);
-            doc.text(`VAU: R$ ${vau}`, 20, 120);
-            doc.text(`Economia: ${economiaPercentual.toFixed(2)}%`, 20, 130);
-            
-            doc.text('Contato:', 20, 150);
-            doc.text('E-mail: contatoinssobra@gmail.com', 20, 160);
-            doc.text('Tel: 35 9 9911-9922', 20, 170);
-            
-            // Salvar o PDF
-            doc.save(`relatorio-custos-${now.getTime()}.pdf`);
-        }
-
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            // Navegação entre passos
-            document.getElementById('next-step-1').addEventListener('click', function() {
-                if (validateStep(1)) {
-                    showStep(2);
-                    updateCalculations();
-                }
-            });
-            
-            document.getElementById('prev-step-2').addEventListener('click', function() {
-                showStep(1);
-            });
-            
-            document.getElementById('next-step-2').addEventListener('click', function() {
-                if (validateStep(2)) {
-                    showStep(3);
-                    updateCalculations();
-                }
-            });
-            
-            document.getElementById('prev-step-3').addEventListener('click', function() {
-                showStep(2);
-            });
-            
-            document.getElementById('next-step-3').addEventListener('click', function() {
-                if (validateStep(3)) {
-                    showStep(4);
-                    updateCalculations();
-                }
-            });
-            
-            document.getElementById('prev-step-4').addEventListener('click', function() {
-                showStep(3);
-            });
-            
-            // Atualizar cálculos quando os campos de área mudam
-            document.getElementById('area-principal').addEventListener('input', updateCalculations);
-            document.getElementById('area-complementar-coberta').addEventListener('input', updateCalculations);
-            document.getElementById('area-complementar-descoberta').addEventListener('input', updateCalculations);
-            document.getElementById('vau').addEventListener('input', updateCalculations);
-            
-            // Gerar PDF
-            document.getElementById('generate-pdf').addEventListener('click', generatePDF);
+        
+        // Gerar PDF - VERSÃO SIMPLIFICADA E CENTRALIZADA
+        document.getElementById('generate-pdf').addEventListener('click', function() {
+            generatePDF();
         });
+        
+        function generatePDF() {
+            const loadingElement = document.getElementById('pdf-loading');
+            const { jsPDF } = window.jspdf;
+            
+            // Mostrar loading
+            loadingElement.style.display = 'block';
+            
+            // Pequeno delay para garantir que o loading seja visível
+            setTimeout(() => {
+                try {
+                    // Criar novo documento PDF
+                    const doc = new jsPDF();
+                    
+                    // Configurações da página A4
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    const pageHeight = doc.internal.pageSize.getHeight();
+                    const margin = 20;
+                    const contentWidth = pageWidth - (2 * margin);
+                    
+                    // Posição inicial
+                    let yPosition = margin + 20;
+                    
+                    // Função para adicionar linha separadora
+                    const addSeparator = (y) => {
+                        doc.setDrawColor(200, 200, 200);
+                        doc.setLineWidth(0.5);
+                        doc.line(margin, y, pageWidth - margin, y);
+                        return y + 10;
+                    };
+                    
+                    // Função para adicionar texto centralizado
+                    const addCenteredText = (text, y, fontSize = 12, isBold = false) => {
+                        doc.setFontSize(fontSize);
+                        doc.setFont('helvetica', isBold ? 'bold' : 'normal');
+                        const textWidth = doc.getTextWidth(text);
+                        const x = (pageWidth - textWidth) / 2;
+                        doc.text(text, x, y);
+                        return y + (fontSize / 2) + 5;
+                    };
+                    
+                    // Função para adicionar linha de informação
+                    const addInfoLine = (label, value, y) => {
+                        doc.setFontSize(11);
+                        doc.setFont('helvetica', 'normal');
+                        
+                        // Label
+                        doc.text(label, margin, y);
+                        
+                        // Value (alinhado à direita)
+                        const valueWidth = doc.getTextWidth(value);
+                        doc.text(value, pageWidth - margin - valueWidth, y);
+                        
+                        return y + 8;
+                    };
+                    
+                    // Formatar valores
+                    const formatCurrency = (value) => {
+                        return new Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL'
+                        }).format(value || 0);
+                    };
+                    
+                    // Título principal
+                    yPosition = addCenteredText('Resumo do Cálculo de INSS de Obras', yPosition, 16, true);
+                    
+                    yPosition += 10;
+                    
+                    // Data e hora
+                    const now = new Date();
+                    const dataHora = now.toLocaleString('pt-BR');
+                    yPosition = addCenteredText(`Gerado em: ${dataHora}`, yPosition, 10, false);
+                    
+                    yPosition += 15;
+                    
+                    // Linha separadora
+                    yPosition = addSeparator(yPosition);
+                    
+                    // Informações principais
+                    const areaTotal = parseFloat(document.getElementById('area-total').value) || 0;
+                    const inssSemAjuste = parseFloat(document.getElementById('inss-recolher').value) || 0;
+                    const inssComAjuste = parseFloat(document.getElementById('cpp').value) || 0;
+                    const diferenca = inssSemAjuste - inssComAjuste;
+                    const percentualEconomia = inssSemAjuste > 0 ? (diferenca / inssSemAjuste) * 100 : 0;
+                    const vau = parseFloat(document.getElementById('vau').value) || 0;
+                    
+                    // Adicionar informações
+                    yPosition = addInfoLine('Área Construída Total:', `${areaTotal.toFixed(2)} m²`, yPosition);
+                    yPosition = addInfoLine('INSS sem Fator de Ajuste:', formatCurrency(inssSemAjuste), yPosition);
+                    yPosition = addInfoLine('INSS com Fator de Ajuste:', formatCurrency(inssComAjuste), yPosition);
+                    yPosition = addInfoLine('Diferença:', formatCurrency(diferenca), yPosition);
+                    yPosition = addInfoLine('VAU:', formatCurrency(vau), yPosition);
+                    yPosition = addInfoLine('Economia:', `${percentualEconomia.toFixed(2)}%`, yPosition);
+                    
+                    yPosition += 10;
+                    
+                    // Linha separadora final
+                    yPosition = addSeparator(yPosition);
+                    
+                    yPosition += 15;
+                    
+                    // Contato no rodapé
+                    doc.setFontSize(10);
+                    doc.setTextColor(100, 100, 100);
+                    const contatoText = 'E-mail: contatoinssobra@gmail.com | Tel: (35) 99911-9922';
+                    const contatoWidth = doc.getTextWidth(contatoText);
+                    const contatoX = (pageWidth - contatoWidth) / 2;
+                    doc.text(contatoText, contatoX, pageHeight - margin);
+                    
+                    // Salvar PDF
+                    const fileName = `Resumo_INSS_Obras_${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}.pdf`;
+                    doc.save(fileName);
+                    
+                    // Esconder loading
+                    loadingElement.style.display = 'none';
+                    
+                } catch (error) {
+                    console.error('Erro ao gerar PDF:', error);
+                    alert('Erro ao gerar PDF. Verifique o console para mais detalhes.');
+                    loadingElement.style.display = 'none';
+                }
+            }, 100);
+        }
     </script>
 </body>
 </html>
-
-
