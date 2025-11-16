@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de INSS de Obras - Herman Pedroso</title>
+    <title>Formulário Multistep - Cálculo de Custos</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -284,22 +284,6 @@
             margin-top: 5px;
         }
         
-        .vau-auto {
-            background-color: #e8f5e8 !important;
-            border-color: #2ecc71 !important;
-        }
-        
-        .vau-manual {
-            background-color: #fff3cd !important;
-            border-color: #ffc107 !important;
-        }
-        
-        .success-message {
-            color: #2ecc71;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        
         .pdf-loading {
             display: none;
             text-align: center;
@@ -307,6 +291,11 @@
             background-color: #f8f9fa;
             border-radius: var(--border-radius);
             margin: 10px 0;
+        }
+        
+        .currency-display {
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 500;
         }
         
         @media (max-width: 768px) {
@@ -437,22 +426,18 @@
                 <!-- Passo 3: Custos -->
                 <div class="form-step" id="step3">
                     <div class="form-group">
-                        <label for="vau">VAU (R$)</label>
+                        <label for="vau">VAU (R$) *</label>
                         <div class="currency-input">
-                            <input type="number" id="vau" name="vau" step="0.01" min="0">
+                            <input type="number" id="vau" name="vau" step="0.01" min="0" required placeholder="Digite o valor do VAU">
                         </div>
-                        <div class="loading" id="vau-loading">
-                            <div class="spinner"></div>
-                            <p>Buscando VAU na planilha...</p>
-                        </div>
-                        <div class="error-message" id="vau-error"></div>
-                        <small>O VAU será preenchido automaticamente com base na Destinação e Estado selecionados</small>
+                        <small>Preencha com o valor do VAU conforme tabela de referência</small>
+                        <a href="https://calculadoradeinss.netlify.app/tabelavau.html" target="_blank" rel="noopener noreferrer">Acesse a tabela VAU</a>
                     </div>
                     
                     <div class="form-group">
                         <label for="custo-destinacao">Custo por Destinação (R$)</label>
                         <div class="currency-input">
-                            <input type="number" id="custo-destinacao" name="custo-destinacao" readonly>
+                            <input type="text" id="custo-destinacao" name="custo-destinacao" readonly class="currency-display">
                         </div>
                     </div>
                     
@@ -469,14 +454,14 @@
                     <div class="form-group">
                         <label for="remuneracao-mao-obra">Remuneração de Mão de Obra Total (R$)</label>
                         <div class="currency-input">
-                            <input type="number" id="remuneracao-mao-obra" name="remuneracao-mao-obra" readonly>
+                            <input type="text" id="remuneracao-mao-obra" name="remuneracao-mao-obra" readonly class="currency-display">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="inss-recolher">INSS a Recolher (R$)</label>
                         <div class="currency-input">
-                            <input type="number" id="inss-recolher" name="inss-recolher" readonly>
+                            <input type="text" id="inss-recolher" name="inss-recolher" readonly class="currency-display">
                         </div>
                     </div>
                     
@@ -495,7 +480,7 @@
                     <div class="form-group">
                         <label for="remuneracao-mao-obra-display">Remuneração de Mão de Obra Total (R$)</label>
                         <div class="currency-input">
-                            <input type="number" id="remuneracao-mao-obra-display" name="remuneracao-mao-obra-display" readonly>
+                            <input type="text" id="remuneracao-mao-obra-display" name="remuneracao-mao-obra-display" readonly class="currency-display">
                         </div>
                     </div>
                     
@@ -507,7 +492,7 @@
                     <div class="form-group">
                         <label for="rmt-fa">RMT Para o FA (R$)</label>
                         <div class="currency-input">
-                            <input type="number" id="rmt-fa" name="rmt-fa" readonly>
+                            <input type="text" id="rmt-fa" name="rmt-fa" readonly class="currency-display">
                         </div>
                     </div>
                     
@@ -520,21 +505,21 @@
                     <div class="form-group">
                         <label for="fator-ajuste-valor">Fator de Ajuste (R$)</label>
                         <div class="currency-input">
-                            <input type="number" id="fator-ajuste-valor" name="fator-ajuste-valor" readonly>
+                            <input type="text" id="fator-ajuste-valor" name="fator-ajuste-valor" readonly class="currency-display">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="rmt-fa-display">RMT para o FA (R$)</label>
                         <div class="currency-input">
-                            <input type="number" id="rmt-fa-display" name="rmt-fa-display" readonly>
+                            <input type="text" id="rmt-fa-display" name="rmt-fa-display" readonly class="currency-display">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="cpp">Contribuição Patronal Previdenciária (CPP) (R$)</label>
                         <div class="currency-input">
-                            <input type="number" id="cpp" name="cpp" readonly>
+                            <input type="text" id="cpp" name="cpp" readonly class="currency-display">
                         </div>
                     </div>
 
@@ -552,14 +537,11 @@
         </form>
         
         <div class="contact-info">
-            <p>E-mail: contatoinssobra@gmail.com | Tel: 35 9 9911-9922</p>
+            <p>E-mail: contatoinssobra@gmail.com | Tel: (35) 99911-9922</p>
         </div>
     </div>
 
     <script>
-        // URL da API do Google Apps Script (substitua pela sua URL)
-        const API_URL = 'SUA_URL_DO_GOOGLE_APPS_SCRIPT_AQUI';
-        
         // Estados brasileiros
         const estados = [
             "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", 
@@ -589,50 +571,19 @@
         document.getElementById('next3').addEventListener('click', () => navigateToStep(3));
         document.getElementById('prev4').addEventListener('click', () => navigateToStep(2));
         
-        // Buscar VAU automaticamente quando Destinação ou Estado mudarem
-        document.getElementById('destinacao').addEventListener('change', fetchVAU);
-        document.getElementById('estado').addEventListener('change', fetchVAU);
+        // Função para formatar valores em Real brasileiro
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(value || 0);
+        }
         
-        async function fetchVAU() {
-            const destinacao = document.getElementById('destinacao').value;
-            const estado = document.getElementById('estado').value;
-            const vauInput = document.getElementById('vau');
-            const loadingElement = document.getElementById('vau-loading');
-            const errorElement = document.getElementById('vau-error');
-            
-            // Resetar estados
-            errorElement.textContent = '';
-            vauInput.classList.remove('vau-auto', 'vau-manual');
-            
-            if (!destinacao || !estado) {
-                return;
-            }
-            
-            // Mostrar loading
-            loadingElement.style.display = 'block';
-            
-            try {
-                const response = await fetch(`${API_URL}?estado=${encodeURIComponent(estado)}&destinacao=${encodeURIComponent(destinacao)}`);
-                const data = await response.json();
-                
-                if (data.success && data.vau !== undefined) {
-                    vauInput.value = data.vau;
-                    vauInput.classList.add('vau-auto');
-                    errorElement.textContent = '';
-                    // Disparar evento para calcular custos automaticamente
-                    vauInput.dispatchEvent(new Event('input'));
-                } else {
-                    errorElement.textContent = data.error || 'VAU não encontrado para esta combinação';
-                    vauInput.classList.add('vau-manual');
-                    vauInput.placeholder = 'Preencha manualmente';
-                }
-            } catch (error) {
-                console.error('Erro ao buscar VAU:', error);
-                errorElement.textContent = 'Erro ao conectar com a planilha. Preencha o VAU manualmente.';
-                vauInput.classList.add('vau-manual');
-                vauInput.placeholder = 'Preencha manualmente';
-            } finally {
-                loadingElement.style.display = 'none';
+        // Função para aplicar formatação aos campos de moeda
+        function updateCurrencyDisplay(inputId, value) {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.value = formatCurrency(value);
             }
         }
         
@@ -748,7 +699,7 @@
             
             // Calcular custo por destinação
             const custoDestinacao = vau * areaEquivalente;
-            document.getElementById('custo-destinacao').value = custoDestinacao.toFixed(2);
+            updateCurrencyDisplay('custo-destinacao', custoDestinacao);
             
             // Calcular fator social
             let fatorSocial = 0;
@@ -772,11 +723,11 @@
             
             // Calcular remuneração de mão de obra total
             const remuneracaoMaoObra = custoDestinacao * (fatorSocial / 100) * (pmo / 100);
-            document.getElementById('remuneracao-mao-obra').value = remuneracaoMaoObra.toFixed(2);
+            updateCurrencyDisplay('remuneracao-mao-obra', remuneracaoMaoObra);
             
             // Calcular INSS a recolher
             const inssRecolher = remuneracaoMaoObra * 0.368;
-            document.getElementById('inss-recolher').value = inssRecolher.toFixed(2);
+            updateCurrencyDisplay('inss-recolher', inssRecolher);
         }
         
         // Event listener para cálculo automático de custos
@@ -784,11 +735,11 @@
         
         // Cálculo do fator de ajuste (Passo 4)
         function calculateAdjustmentFactor() {
-            const remuneracaoMaoObra = parseFloat(document.getElementById('remuneracao-mao-obra').value) || 0;
+            const remuneracaoMaoObra = parseFloat(document.getElementById('remuneracao-mao-obra').value.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
             const areaTotal = parseFloat(document.getElementById('area-total').value) || 0;
             
             // Exibir remuneração de mão de obra
-            document.getElementById('remuneracao-mao-obra-display').value = remuneracaoMaoObra.toFixed(2);
+            updateCurrencyDisplay('remuneracao-mao-obra-display', remuneracaoMaoObra);
             
             // Calcular fator de ajuste percentual
             const fatorAjustePercentual = areaTotal <= 350 ? 50 : 70;
@@ -796,20 +747,20 @@
             
             // Calcular RMT para o FA
             const rmtFa = remuneracaoMaoObra * (fatorAjustePercentual / 100);
-            document.getElementById('rmt-fa').value = rmtFa.toFixed(2);
+            updateCurrencyDisplay('rmt-fa', rmtFa);
             
             // Exibir fator de ajuste
-            document.getElementById('fator-ajuste-valor').value = remuneracaoMaoObra.toFixed(2);
+            updateCurrencyDisplay('fator-ajuste-valor', remuneracaoMaoObra);
             
             // Exibir RMT para o FA
-            document.getElementById('rmt-fa-display').value = rmtFa.toFixed(2);
+            updateCurrencyDisplay('rmt-fa-display', rmtFa);
             
             // Calcular CPP
             const cpp = rmtFa * 0.2;
-            document.getElementById('cpp').value = cpp.toFixed(2);
+            updateCurrencyDisplay('cpp', cpp);
         }
         
-        // Gerar PDF - VERSÃO SIMPLIFICADA E CENTRALIZADA
+        // Gerar PDF
         document.getElementById('generate-pdf').addEventListener('click', function() {
             generatePDF();
         });
@@ -869,14 +820,6 @@
                         return y + 8;
                     };
                     
-                    // Formatar valores
-                    const formatCurrency = (value) => {
-                        return new Intl.NumberFormat('pt-BR', {
-                            style: 'currency',
-                            currency: 'BRL'
-                        }).format(value || 0);
-                    };
-                    
                     // Título principal
                     yPosition = addCenteredText('Resumo do Cálculo de INSS de Obras', yPosition, 16, true);
                     
@@ -894,8 +837,8 @@
                     
                     // Informações principais
                     const areaTotal = parseFloat(document.getElementById('area-total').value) || 0;
-                    const inssSemAjuste = parseFloat(document.getElementById('inss-recolher').value) || 0;
-                    const inssComAjuste = parseFloat(document.getElementById('cpp').value) || 0;
+                    const inssSemAjuste = parseFloat(document.getElementById('inss-recolher').value.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+                    const inssComAjuste = parseFloat(document.getElementById('cpp').value.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
                     const diferenca = inssSemAjuste - inssComAjuste;
                     const percentualEconomia = inssSemAjuste > 0 ? (diferenca / inssSemAjuste) * 100 : 0;
                     const vau = parseFloat(document.getElementById('vau').value) || 0;
