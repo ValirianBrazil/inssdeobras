@@ -1,1 +1,446 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora de INSS de Obras (beta)</title>
 
+  <!-- Google Font Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Icons (opcional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css" />
+
+  <style>
+    :root{
+      --bg:#F3ECE1;
+      --primary:#2B2F4A;
+      --accent:#3D7DDD;
+      --card:#ffffff;
+      --muted:#666;
+    }
+    *{box-sizing:border-box;font-family: 'Roboto', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#fff);
+      color:var(--primary);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:16px;
+    }
+    header{
+      text-align:center;
+      background:var(--primary);
+      color:white;
+      padding:18px 12px;
+      border-radius:12px;
+      margin-bottom:14px;
+    }
+    header h1{margin:0;font-size:20px;font-weight:700}
+    header p{margin:6px 0 0;font-size:14px;font-weight:400;opacity:0.95}
+
+    nav{
+      display:flex;
+      gap:8px;
+      justify-content:center;
+      margin:14px 0;
+      flex-wrap:wrap;
+    }
+    nav a{
+      text-decoration:none;
+      padding:8px 12px;
+      background:transparent;
+      border-radius:8px;
+      color:var(--primary);
+      font-weight:500;
+      transition:all .15s;
+      border:1px solid rgba(43,47,74,0.06);
+    }
+    nav a:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(43,47,74,0.06)}
+
+    .container{
+      max-width:900px;
+      margin:0 auto;
+      background:var(--card);
+      padding:18px;
+      border-radius:12px;
+      box-shadow:0 8px 30px rgba(22,28,45,0.06);
+    }
+	   .faq-item {
+            background: #fff;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            padding: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+
+        .faq-pergunta {
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .faq-pergunta:hover {
+            background: #f1f1f1;
+        }
+
+        .faq-pergunta::after {
+            content: '+';
+            position: absolute;
+            right: 20px;
+            font-size: 1.5rem;
+        }
+
+        .faq-pergunta.active::after {
+            content: '-';
+        }
+
+        .faq-resposta {
+            display: none;
+            padding: 0 20px 15px 20px;
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.5;
+        }
+
+
+    /* Steps layout */
+    .steps{
+      display:flex;
+      gap:8px;
+      justify-content:center;
+      margin-bottom:18px;
+      flex-wrap:wrap;
+    }
+    .step-ind{
+      padding:8px 12px;border-radius:999px;font-weight:500;font-size:13px;background:rgba(61,125,221,0.08);
+      color:var(--accent);
+    }
+    form .step{display:none}
+    form .step.active{display:block}
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .full{grid-column:1/-1}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--primary)}
+    input[type="text"], input[type="number"], select, .readonly{
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid #E6E6E6;
+      font-size:14px;
+      outline:none;
+      background:white;
+    }
+    .readonly{background:#FAFAFA}
+    small.note{display:block;color:var(--muted);margin-top:6px;font-size:12px}
+
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      margin-top:16px;
+      flex-wrap:wrap;
+    }
+    button{
+      padding:10px 14px;border-radius:10px;border:0;background:var(--accent);color:white;font-weight:600;
+      cursor:pointer;
+    }
+    button.secondary{background:#E9EEF9;color:var(--accent);border:1px solid rgba(61,125,221,0.12)}
+    .contact{
+      margin-top:18px;padding:12px;border-radius:8px;background:#FBFBFB;border:1px solid #EFEFEF;font-size:14px;
+      display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap
+    }
+
+    footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* Responsive */
+    @media (max-width:700px){
+      .grid{grid-template-columns:1fr}
+      header h1{font-size:18px}
+      .container{padding:14px}
+    }
+
+    /* Small helper for summary */
+    .summary-line{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #EEE;font-size:14px}
+    .muted{color:var(--muted)}
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Calculadora de INSS de Obras (beta)</h1>
+    <p>Preencha as informações abaixo para calcular os custos da sua obra</p>
+  </header>
+
+  <nav aria-label="Menu principal">
+    <a href="inicio.html">Início</a>
+    <a href="duvidas.html">Dúvidas Frequentes</a>
+    <a href="fator-de-ajuste.html">Fator de Ajuste</a>
+    <a href="tabelavau.html">Tabela VAU</a>
+    <a href="contato.html">Contato</a>
+  </nav>
+
+  <div class="container" role="main">
+    <form id="calcForm" autocomplete="off" novalidate>
+
+      
+
+      <!-- STEP 2 -->
+      <div class="step" data-step="2">
+        <div class="grid">
+          <div class="full">
+            <label>Áreas (m²)</label>
+          </div>
+
+          <div>
+            <label for="area_principal">Área Construída Principal (m²) <span class="muted">*</span></label>
+            <input id="area_principal" inputmode="numeric" type="number" min="0" step="0.01" placeholder="Ex: 120.00" required>
+          </div>
+
+          <div>
+            <label for="area_comp_cob">Área Complementar Coberta (m²) <small class="muted">(opcional)</small></label>
+            <input id="area_comp_cob" inputmode="numeric" type="number" min="0" step="0.01" placeholder="Ex: 20.00">
+          </div>
+
+          <div>
+            <label for="area_comp_desc">Área Complementar Descoberta (m²) <small class="muted">(opcional)</small></label>
+            <input id="area_comp_desc" inputmode="numeric" type="number" min="0" step="0.01" placeholder="Ex: 10.00">
+          </div>
+
+          <div>
+            <label for="area_total">Área Construída Total (m²)</label>
+            <input id="area_total" class="readonly" readonly type="text" value="0,00 m²">
+          </div>
+
+          <div>
+            <label for="percentual_equivalencia">Percentual de Equivalência</label>
+            <input id="percentual_equivalencia" class="readonly" readonly type="text" value="—">
+            <small class="note">Calculado conforme Destinação e Área Total</small>
+          </div>
+
+          <div class="full">
+            <label for="area_equivalente">Área Equivalente (m²)</label>
+            <input id="area_equivalente" class="readonly" readonly type="text" value="0,00 m²">
+          </div>
+
+        </div>
+
+        <div class="actions">
+          <button type="button" class="secondary" id="back2">← Voltar</button>
+          <button type="button" id="next2">Próximo →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step" data-step="3">
+        <div class="grid">
+          <div class="full">
+            <label for="vau">VAU (R$) <a href='https://calculadoradeinss.netlify.app/tabelavau.html' rel='noopener noreferrer' target='_blank'>Acesse a tabela VAU</a></label>
+            <input id="vau" type="text" inputmode="numeric" placeholder="R$ 0,00">
+            <small class="note">Acesse a planilha pelo link.</small>
+          </div>
+
+          <div class="full">
+            <label for="custo_destinacao">Custo por Destinação (R$)</label>
+            <input id="custo_destinacao" class="readonly" readonly type="text" value="R$ 0,00">
+          </div>
+
+          <div>
+            <label for="fator_social">Fator Social (%)</label>
+            <input id="fator_social" class="readonly" readonly type="text" value="—">
+            <small class="note">Calculado conforme Área Construída Total</small>
+          </div>
+
+          <div>
+            <label for="pmo">PMO (Percentual de Mão de Obra sobre o Custo da Obra) (%)</label>
+            <input id="pmo" class="readonly" readonly type="text" value="—">
+            <small class="note">Calculado conforme Destinação e Método Construtivo</small>
+          </div>
+
+          <div class="full">
+            <label for="remuneracao_total">Remuneração de Mão de Obra Total (R$)</label>
+            <input id="remuneracao_total" class="readonly" readonly type="text" value="R$ 0,00">
+          </div>
+
+          <div class="full">
+            <label for="inss_sem_fa">INSS a Recolher (sem Fator de Ajuste) — 36,80%</label>
+            <input id="inss_sem_fa" class="readonly" readonly type="text" value="R$ 0,00">
+          </div>
+
+        </div>
+
+        <div class="actions">
+          <button type="button" class="secondary" id="back3">← Voltar</button>
+          <button type="button" id="next3">Próximo →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step" data-step="4">
+        <div style="text-align:center;margin-bottom:10px;"><strong>Fator de Ajuste</strong></div>
+        <div class="grid">
+          <div class="full">
+            <label>Remuneração de Mão de Obra Total (R$)</label>
+            <input id="fa_remuneracao" class="readonly" readonly type="text" value="R$ 0,00">
+          </div>
+
+          <div>
+            <label>% do Fator de Ajuste</label>
+            <input id="fa_percentual" class="readonly" readonly type="text" value="—">
+            <small class="note">50% até 350 m² | 70% ≥ 350,01 m²</small>
+          </div>
+
+          <div>
+            <label for="rmt_fa">RMT Para o FA (R$)</label>
+            <input id="rmt_fa" class="readonly" readonly type="text" value="R$ 0,00">
+          </div>
+
+          <div class="full" style="margin-top:8px;border-top:1px solid #EEE;padding-top:12px;text-align:center">
+            <strong>APLICAÇÃO DO FATOR DE AJUSTE</strong>
+          </div>
+
+          <div>
+            <label for="fa_aplicado">Fator de Ajuste (R$)</label>
+            <input id="fa_aplicado" class="readonly" readonly type="text" value="R$ 0,00">
+          </div>
+
+          <div>
+            <label for="cpp">Contribuição Patronal Previdenciária (CPP) — 20% (R$)</label>
+            <input id="cpp" class="readonly" readonly type="text" value="R$ 0,00">
+          </div>
+
+        </div>
+
+        <div class="actions">
+          <button type="button" class="secondary" id="back4">← Voltar</button>
+          <div style="display:flex;gap:8px">
+            <button type="button" id="generatePDF">Gerar PDF (Resumo)</button>
+            <button type="button" id="resetForm" class="secondary">Limpar</button>
+          </div>
+        </div>
+
+      </div>
+<div class="container">
+
+    <!-- FAQ 1 -->
+    <div class="faq-item">
+        <div class="faq-pergunta">1. O INSS de obras é obrigatório?</div>
+        <div class="faq-resposta">
+            Sim. Toda obra de construção civil deve recolher um valor referente ao INSS (CPP), de acordo com a área total construída.
+        </div>
+    </div>
+
+    <!-- FAQ 2 -->
+    <div class="faq-item">
+        <div class="faq-pergunta">2. Nunca recolhi INSS de obra. Por que agora terei que pagar?</div>
+        <div class="faq-resposta">
+            Com a mudança promovida pela IN 20/21 da Receita Federal, todo projeto de construção passou a ficar vinculado à Receita Federal do Brasil por meio do sistema de aferição de obras (SERO). 
+            As prefeituras são obrigadas por lei a informar os alvarás liberados, permitindo que a Receita cobre o INSS da construção a qualquer momento.
+        </div>
+    </div>
+
+    <!-- FAQ 3 -->
+    <div class="faq-item">
+        <div class="faq-pergunta">3. Se eu não pagar o INSS, o que pode acontecer?</div>
+        <div class="faq-resposta">
+            Caso o INSS não seja quitado, o proprietário poderá ser notificado para regularizar a situação. 
+            Se não houver regularização, a Receita Federal pode aplicar multa de até 225% do valor devido.
+        </div>
+    </div>
+
+    <!-- FAQ 4 -->
+    <div class="faq-item">
+        <div class="faq-pergunta">4. Terminei uma obra há muito tempo. Ainda assim tenho que pagar o INSS?</div>
+        <div class="faq-resposta">
+            Sim. Porém, há a possibilidade de o débito prescrever antes de haver notificação da Receita Federal.
+        </div>
+    </div>
+
+    <!-- FAQ 5 -->
+    <div class="faq-item">
+        <div class="faq-pergunta">5. Qual é o prazo de prescrição?</div>
+        <div class="faq-resposta">
+            O prazo é de 5 anos a partir da data de início da obra.  
+            Importante: a Receita considera o início do prazo prescricional somente no ano seguinte ao que completar os 5 anos.
+        </div>
+    </div>
+
+    <!-- FAQ 6 -->
+    <div class="faq-item">
+        <div class="faq-pergunta">6. Como posso recolher o INSS da minha obra?</div>
+        <div class="faq-resposta">
+            Entre em contato com nossa equipe e solicite uma simulação sem compromisso para analisarmos o seu caso.
+        </div>
+    </div>
+
+    <!-- FAQ 7 -->
+    <div class="faq-item">
+        <div class="faq-pergunta">7. Existe algum desconto no INSS da obra?</div>
+        <div class="faq-resposta">
+            Sim. Para obras realizadas por pessoa física é possível reduzir o valor cobrado pela Receita Federal em até 70%, de forma legal e segura.  
+            Esse desconto é previsto nos próprios normativos da RF.
+        </div>
+    </div>
+
+    <!-- FAQ 8 -->
+    <div class="faq-item">
+        <div class="faq-pergunta">8. Quando devo iniciar o recolhimento do INSS da obra?</div>
+        <div class="faq-resposta">
+            O ideal é iniciar o recolhimento desde o começo da obra. Assim, o desconto será o maior possível.
+        </div>
+    </div>
+
+    <!-- FAQ 9 -->
+    <div class="faq-item">
+        <div class="faq-pergunta">9. Fui notificado pela Receita Federal. O que devo fazer?</div>
+        <div class="faq-resposta">
+            Ainda é possível reduzir substancialmente o valor devido.  
+            Entre em contato com nossa equipe para receber mais orientações.
+        </div>
+    </div>
+
+    <!-- FAQ 10 -->
+    <div class="faq-item">
+        <div class="faq-pergunta">10. Meu contador disse que não tem como reduzir o INSS da obra. Isso é verdade?</div>
+        <div class="faq-resposta">
+            Não. Desde que sua obra esteja enquadrada nos requisitos estabelecidos pela Receita Federal, é sim possível reduzir o valor.
+        </div>
+    </div>
+
+</div>
+
+    </form>
+
+    <div class="contact" aria-label="Contato">
+      <div><strong>Contato:</strong> contatoinssobra@gmail.com | Tel: 35 9 9911-9922</div>
+      <div class="muted">Os cálculos são estimativas; valide valores oficiais quando necessário.</div>
+    </div>
+
+    <footer>
+      <small>© Calculadora de INSS de Obras (beta)</small>
+    </footer>
+  </div>
+
+  <!-- Libraries for PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+  <script>
+    const perguntas = document.querySelectorAll(".faq-pergunta");
+
+    perguntas.forEach(pergunta => {
+        pergunta.addEventListener("click", () => {
+            pergunta.classList.toggle("active");
+
+            const resposta = pergunta.nextElementSibling;
+            resposta.style.display = resposta.style.display === "block" ? "none" : "block";
+        });
+    });
+</script>
+</body>
+</html>
