@@ -20,6 +20,44 @@ body {
 /* ============================================
    HEADER
 ============================================ */
+
+/* Logo com imagem */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-img {
+    width: 59px;
+    height: 67px;
+    object-fit: contain;
+}
+
+.logo h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0;
+}
+
+.logo span {
+    color: #1976d2;
+}
+
+/* Responsivo para mobile */
+@media (max-width: 768px) {
+    .logo-img {
+        width: 45px;
+        height: 51px;
+    }
+    
+    .logo h2 {
+        font-size: 22px;
+    }
+}
+
+
 .header {
     background-color: #ffffff;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
