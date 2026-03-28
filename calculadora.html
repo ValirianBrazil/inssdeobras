@@ -465,13 +465,13 @@
                                 <div class="form-group">
                                     <label for="area-complementar-coberta">Área Complementar Coberta (m²)</label>
                                     <input type="number" id="area-complementar-coberta" name="area-complementar-coberta" min="0" step="0.01" placeholder="Ex: 50">
-                                    <div class="info-text">* Será considerado 50% deste valor</div>
+                                    <div class="info-text">* Área construída desmembrada a principal, por exemplo: área de lazer, comôdo de despejo, etc...</div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="area-complementar-descoberta">Área Complementar Descoberta (m²)</label>
                                     <input type="number" id="area-complementar-descoberta" name="area-complementar-descoberta" min="0" step="0.01" placeholder="Ex: 30">
-                                    <div class="info-text">* Será considerado 25% deste valor</div>
+                                    <div class="info-text">* Área construída descoberta, por exemplo: piscina, playground, etc...</div>
                                 </div>
 
                                 <div class="form-actions">
@@ -486,7 +486,7 @@
                                     <label for="vau" class="required">VAU (Valor Unitário da Área)</label>
                                     <input type="number" id="vau" name="vau" min="0" step="0.01" required placeholder="R$ / m²" readonly style="background-color: #e8f5e9; font-weight: bold;">
                                     <div id="vau-auto-info" class="vau-auto"></div>
-                                    <div class="info-text">VAU obtido automaticamente da planilha de referência</div>
+                                    <div class="info-text">VAU Valor Atualizado Unitário - custo por metro quadrado de construção calculado pela Receita Federal</div>
                                     <div class="error-message" id="vau-error">Não foi possível obter o VAU para esta combinação</div>
                                 </div>
 
@@ -499,7 +499,7 @@
                             <!-- Passo 4: Resultado -->
                             <div class="form-step" id="step4-form">
                                 <div class="highlight-section">
-                                    <div class="highlight-title">💰 RESULTADO DA SIMULAÇÃO 💰</div>
+                                    <div class="highlight-title">- RESULTADO DA SIMULAÇÃO -</div>
 
                                     <div class="form-group">
                                         <label>Valor a ser pago SEM o Fator de Ajuste</label>
@@ -512,7 +512,7 @@
                                     </div>
 
                                     <div class="discount-badge" id="discount-badge">
-                                        💰 ECONOMIA TOTAL 💰
+                                        - ECONOMIA TOTAL -
                                         <span id="percentual-desconto">0%</span>
                                     </div>
 
