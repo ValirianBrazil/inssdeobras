@@ -21,7 +21,6 @@
             margin: 0 auto;
         }
 
-        /* Informações de contato */
         .contato-info {
             background: white;
             border-radius: 24px;
@@ -89,7 +88,6 @@
             color: #1976d2;
         }
 
-        /* Horário de atendimento */
         .horario {
             margin-top: 32px;
             padding-top: 24px;
@@ -111,11 +109,6 @@
             font-size: 14px;
         }
 
-        .horario-item span:first-child {
-            font-weight: 500;
-        }
-
-        /* Formulário */
         .contato-form {
             background: white;
             border-radius: 24px;
@@ -177,7 +170,6 @@
             min-height: 100px;
         }
 
-        /* Upload de arquivo */
         .file-upload {
             position: relative;
             width: 100%;
@@ -223,7 +215,6 @@
             color: #64748b;
         }
 
-        /* Botão de envio */
         .btn-enviar {
             width: 100%;
             padding: 14px;
@@ -249,7 +240,6 @@
             transform: none;
         }
 
-        /* Mensagens de status */
         .status-message {
             margin-top: 20px;
             padding: 12px 16px;
@@ -279,7 +269,6 @@
             display: block;
         }
 
-        /* Mapa */
         .mapa {
             margin-top: 60px;
             background: white;
@@ -305,7 +294,6 @@
             font-size: 0.85rem;
         }
 
-        /* Responsivo */
         @media (max-width: 968px) {
             .contato-grid {
                 grid-template-columns: 1fr;
@@ -336,7 +324,6 @@
     </style>
 </head>
 <body>
-    <!-- Header / Navegação -->
     <header class="header">
         <div class="container">
             <div class="header-content">
@@ -361,7 +348,6 @@
         <section class="contato-section">
             <div class="container">
                 <div class="contato-grid">
-                    <!-- Informações de contato -->
                     <div class="contato-info">
                         <h2>📞 Entre em Contato</h2>
                         <p>Estamos prontos para ajudar você com a regularização da sua obra. Escolha o canal mais conveniente:</p>
@@ -409,28 +395,20 @@
                         </div>
                     </div>
 
-                    <!-- Formulário de contato com Netlify Forms -->
+                    <!-- Formulário de contato com Netlify Forms CORRIGIDO -->
                     <div class="contato-form">
                         <h2>✉️ Envie uma Mensagem</h2>
                         <p>Preencha o formulário abaixo e retornaremos o mais breve possível</p>
 
-
                         <form 
                             name="contato" 
                             method="POST" 
-                            data-netlify="true" 
-                            data-netlify-honeypot="bot-field"
-                            enctype="multipart/form-data"
-                            id="contactForm">
+                            data-netlify="true"
+                            action="/contato.html"
+                            netlify>
                             
-                            <!-- Campo oculto necessário para o Netlify Forms -->
                             <input type="hidden" name="form-name" value="contato">
                             
-                            <!-- Campo honeypot para evitar spam -->
-                            <div style="display: none;">
-                                <label>Não preencher este campo: <input name="bot-field"></label>
-                            </div>
-
                             <div class="form-group">
                                 <label for="nome">Nome completo <span class="required">*</span></label>
                                 <input type="text" id="nome" name="nome" required placeholder="Seu nome completo">
@@ -485,18 +463,13 @@
                                 </label>
                             </div>
 
-                            <div class="form-group">
-                                <div class="g-recaptcha" data-sitekey="6LcXXXXX"></div>
-                            </div>
-
-                            <button type="submit" class="btn-enviar" id="submitBtn">📤 Enviar Mensagem</button>
+                            <button type="submit" class="btn-enviar">📤 Enviar Mensagem</button>
                             
                             <div id="statusMessage" class="status-message"></div>
                         </form>
                     </div>
                 </div>
 
-                <!-- Mapa de localização -->
                 <div class="mapa">
                     <iframe 
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3746058.4932647073!2d-47.59595645!3d-22.695828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c8c4b0d0b4d8c3%3A0x8b5e5b5b5b5b5b5b!2sMinas%20Gerais!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" 
@@ -511,7 +484,6 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-nav">
@@ -540,7 +512,6 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
         const mobileBtn = document.querySelector('.mobile-menu-btn');
         const navMenu = document.querySelector('.nav-menu');
         
@@ -550,7 +521,6 @@
             });
         }
 
-        // Mostrar nome do arquivo selecionado
         const fileInput = document.getElementById('anexo');
         const fileNameSpan = document.getElementById('fileName');
         
@@ -564,7 +534,6 @@
             });
         }
 
-        // Máscara para telefone
         const telefoneInput = document.getElementById('telefone');
         if (telefoneInput) {
             telefoneInput.addEventListener('input', function(e) {
@@ -580,25 +549,12 @@
             });
         }
 
-        // Validação e envio do formulário (opcional - o Netlify já faz o envio)
         const form = document.getElementById('contactForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const statusMessage = document.getElementById('statusMessage');
-
         if (form) {
-            form.addEventListener('submit', function(e) {
-                // O Netlify Forms vai processar automaticamente
-                // Este código apenas mostra feedback visual
-                submitBtn.disabled = true;
-                submitBtn.textContent = '⏳ Enviando...';
-                statusMessage.className = 'status-message loading';
-                statusMessage.textContent = 'Enviando sua mensagem...';
-                
-                // O formulário será enviado normalmente para o Netlify
-                // Após 3 segundos, o usuário será redirecionado para a página de sucesso
-                setTimeout(() => {
-                    // O redirecionamento será feito pelo Netlify
-                }, 3000);
+            form.addEventListener('submit', function() {
+                const statusDiv = document.getElementById('statusMessage');
+                statusDiv.className = 'status-message loading';
+                statusDiv.textContent = 'Enviando mensagem...';
             });
         }
     </script>
