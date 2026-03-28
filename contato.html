@@ -6,8 +6,9 @@
     <title>Contato | INSS Obra</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
-        /* Estilos específicos para a página de contato */
         .contato-section {
             padding: 60px 0;
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
@@ -246,6 +247,7 @@
             border-radius: 12px;
             display: none;
             font-size: 0.85rem;
+            text-align: center;
         }
 
         .status-message.success {
@@ -395,20 +397,11 @@
                         </div>
                     </div>
 
-                    <!-- Formulário de contato com Netlify Forms CORRIGIDO -->
                     <div class="contato-form">
                         <h2>✉️ Envie uma Mensagem</h2>
                         <p>Preencha o formulário abaixo e retornaremos o mais breve possível</p>
 
-                        <form 
-                            name="contato" 
-                            method="POST" 
-                            data-netlify="true"
-                            action="/contato.html"
-                            netlify>
-                            
-                            <input type="hidden" name="form-name" value="contato">
-                            
+                        <form id="contactForm">
                             <div class="form-group">
                                 <label for="nome">Nome completo <span class="required">*</span></label>
                                 <input type="text" id="nome" name="nome" required placeholder="Seu nome completo">
@@ -428,12 +421,12 @@
                                 <label for="assunto">Assunto <span class="required">*</span></label>
                                 <select id="assunto" name="assunto" required>
                                     <option value="">Selecione uma opção</option>
-                                    <option value="Calculo INSS">Cálculo de INSS de obra</option>
-                                    <option value="Regularização">Regularização de obra</option>
-                                    <option value="Fator Ajuste">Fator de Ajuste</option>
-                                    <option value="Recibo">Recibo de pagamento</option>
-                                    <option value="Dúvidas">Dúvidas gerais</option>
-                                    <option value="Orçamento">Solicitar orçamento</option>
+                                    <option value="Cálculo de INSS de obra">Cálculo de INSS de obra</option>
+                                    <option value="Regularização de obra">Regularização de obra</option>
+                                    <option value="Fator de Ajuste">Fator de Ajuste</option>
+                                    <option value="Recibo de pagamento">Recibo de pagamento</option>
+                                    <option value="Dúvidas gerais">Dúvidas gerais</option>
+                                    <option value="Solicitar orçamento">Solicitar orçamento</option>
                                     <option value="Outros">Outros assuntos</option>
                                 </select>
                             </div>
@@ -463,7 +456,7 @@
                                 </label>
                             </div>
 
-                            <button type="submit" class="btn-enviar">📤 Enviar Mensagem</button>
+                            <button type="submit" class="btn-enviar" id="submitBtn">📤 Enviar Mensagem</button>
                             
                             <div id="statusMessage" class="status-message"></div>
                         </form>
@@ -512,6 +505,7 @@
     </footer>
 
     <script>
+        // Mobile menu toggle
         const mobileBtn = document.querySelector('.mobile-menu-btn');
         const navMenu = document.querySelector('.nav-menu');
         
@@ -521,6 +515,7 @@
             });
         }
 
+        // Mostrar nome do arquivo selecionado
         const fileInput = document.getElementById('anexo');
         const fileNameSpan = document.getElementById('fileName');
         
@@ -534,6 +529,7 @@
             });
         }
 
+        // Máscara para telefone
         const telefoneInput = document.getElementById('telefone');
         if (telefoneInput) {
             telefoneInput.addEventListener('input', function(e) {
@@ -549,14 +545,76 @@
             });
         }
 
+        // ============================================
+        // CONFIGURAÇÃO DO EMAILJS
+        // ============================================
+        // SUBSTITUA ESTES VALORES PELOS SEUS:
+        const EMAILJS_CONFIG = {
+            PUBLIC_KEY: "qFkGABDkEV7vsdMBp",     // Cole sua Public Key do EmailJS
+            SERVICE_ID: "Q3zpI5bYzATXADw6j6JgT",          // Cole seu Service ID
+            TEMPLATE_ID: "template_86slp2h"         // Cole seu Template ID
+        };
+
+        // Inicializar EmailJS
+        emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+
         const form = document.getElementById('contactForm');
-        if (form) {
-            form.addEventListener('submit', function() {
-                const statusDiv = document.getElementById('statusMessage');
-                statusDiv.className = 'status-message loading';
-                statusDiv.textContent = 'Enviando mensagem...';
-            });
-        }
+        const submitBtn = document.getElementById('submitBtn');
+        const statusDiv = document.getElementById('statusMessage');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Desabilitar botão
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Enviando...';
+            statusDiv.className = 'status-message loading';
+            statusDiv.textContent = 'Enviando mensagem...';
+            
+            try {
+                // Coletar dados do formulário
+                const templateParams = {
+                    from_name: document.getElementById('nome').value,
+                    from_email: document.getElementById('email').value,
+                    telefone: document.getElementById('telefone').value,
+                    assunto: document.getElementById('assunto').value,
+                    mensagem: document.getElementById('mensagem').value,
+                    newsletter: document.querySelector('input[name="newsletter"]').checked ? 'Sim' : 'Não',
+                    to_email: 'contatoinssobra@gmail.com',
+                    data_envio: new Date().toLocaleString('pt-BR')
+                };
+                
+                // Enviar e-mail
+                const response = await emailjs.send(
+                    EMAILJS_CONFIG.SERVICE_ID,
+                    EMAILJS_CONFIG.TEMPLATE_ID,
+                    templateParams
+                );
+                
+                if (response.status === 200) {
+                    statusDiv.className = 'status-message success';
+                    statusDiv.textContent = '✅ Mensagem enviada com sucesso! Entraremos em contato em breve.';
+                    form.reset();
+                    fileNameSpan.textContent = '';
+                } else {
+                    throw new Error('Erro no envio');
+                }
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                statusDiv.className = 'status-message error';
+                statusDiv.textContent = '❌ Erro ao enviar mensagem. Tente novamente ou entre em contato pelo WhatsApp.';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '📤 Enviar Mensagem';
+                
+                // Limpar mensagem após 5 segundos
+                setTimeout(() => {
+                    statusDiv.className = 'status-message';
+                    statusDiv.textContent = '';
+                }, 5000);
+            }
+        });
     </script>
 </body>
 </html>
