@@ -3,204 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de INSS de Obra - Fator de Ajuste</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <title>INSS Obra - Regularização de Obras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="form-card">
-            <div class="form-header">
-                <h1>Calculadora de INSS de Obra</h1>
-                <p>Esta calculadora é destinada para Obra Nova</p>
+    <!-- Header / Navegação -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h2>INSS<span>Obra</span></h2>
+                </div>
+                <nav class="nav-menu">
+                    <ul>
+                        <li><a href="index.html" class="active">Início</a></li>
+                        <li><a href="calculadora.html">Calculadora</a></li>
+                        <li><a href="recibo.html">Recibo</a></li>
+                        <li><a href="duvidas.html">Dúvidas</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </nav>
+                <button class="mobile-menu-btn">☰</button>
             </div>
-
-            <div class="progress-bar">
-                <div class="step active" id="step1">
-                    <span>1</span>
-                    <div class="step-label">Obra</div>
-                </div>
-                <div class="step" id="step2">
-                    <span>2</span>
-                    <div class="step-label">Áreas</div>
-                </div>
-                <div class="step" id="step3">
-                    <span>3</span>
-                    <div class="step-label">Custos</div>
-                </div>
-                <div class="step" id="step4">
-                    <span>4</span>
-                    <div class="step-label">Resultado</div>
-                </div>
-            </div>
-
-            <form id="multistep-form">
-                <!-- Passo 1: Dados da Obra -->
-                <div class="form-step active" id="step1-form">
-                    <div class="form-group">
-                        <label for="identificacao" class="required">Nome da Obra</label>
-                        <input type="text" id="identificacao" name="identificacao" required placeholder="Ex: Residência Silva, Edifício Comercial Centro">
-                        <div class="error-message" id="identificacao-error">Por favor, informe o nome da obra</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="destinacao" class="required">Destinação da Obra</label>
-                        <select id="destinacao" name="destinacao" required>
-                            <option value="">Selecione uma opção</option>
-                            <option value="Casa popular">Casa popular</option>
-                            <option value="Comercial salas e lojas">Comercial salas e lojas</option>
-                            <option value="Conjunto habitacional popular">Conjunto habitacional popular</option>
-                            <option value="Galpão industrial">Galpão industrial</option>
-                            <option value="Residencial multifamiliar">Residencial multifamiliar</option>
-                            <option value="Residencial unifamiliar">Residencial unifamiliar</option>
-                        </select>
-                        <div class="error-message" id="destinacao-error">Selecione a destinação da obra</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="metodo-construtivo" class="required">Método Construtivo</label>
-                        <select id="metodo-construtivo" name="metodo-construtivo" required>
-                            <option value="">Selecione uma opção</option>
-                            <option value="Alvenaria">Alvenaria</option>
-                            <option value="Mista/Madeira">Mista/Madeira</option>
-                        </select>
-                        <div class="error-message" id="metodo-construtivo-error">Selecione o método construtivo</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="estado" class="required">Estado da Obra</label>
-                        <select id="estado" name="estado" required>
-                            <option value="">Selecione um estado</option>
-                            <option value="AC">Acre</option>
-                            <option value="AL">Alagoas</option>
-                            <option value="AP">Amapá</option>
-                            <option value="AM">Amazonas</option>
-                            <option value="BA">Bahia</option>
-                            <option value="CE">Ceará</option>
-                            <option value="DF">Distrito Federal</option>
-                            <option value="ES">Espírito Santo</option>
-                            <option value="GO">Goiás</option>
-                            <option value="MA">Maranhão</option>
-                            <option value="MT">Mato Grosso</option>
-                            <option value="MS">Mato Grosso do Sul</option>
-                            <option value="MG">Minas Gerais</option>
-                            <option value="PA">Pará</option>
-                            <option value="PB">Paraíba</option>
-                            <option value="PR">Paraná</option>
-                            <option value="PE">Pernambuco</option>
-                            <option value="PI">Piauí</option>
-                            <option value="RJ">Rio de Janeiro</option>
-                            <option value="RN">Rio Grande do Norte</option>
-                            <option value="RS">Rio Grande do Sul</option>
-                            <option value="RO">Rondônia</option>
-                            <option value="RR">Roraima</option>
-                            <option value="SC">Santa Catarina</option>
-                            <option value="SP">São Paulo</option>
-                            <option value="SE">Sergipe</option>
-                            <option value="TO">Tocantins</option>
-                        </select>
-                        <div class="error-message" id="estado-error">Selecione o estado da obra</div>
-                    </div>
-
-                    <div class="form-actions">
-                        <div></div>
-                        <button type="button" class="btn btn-primary" id="next-step-1">Próximo →</button>
-                    </div>
-                </div>
-
-                <!-- Passo 2: Áreas -->
-                <div class="form-step" id="step2-form">
-                    <div class="form-group">
-                        <label for="area-principal" class="required">Área Principal (m²)</label>
-                        <input type="number" id="area-principal" name="area-principal" min="0" step="0.01" required placeholder="Ex: 150">
-                        <div class="info-text">Área construída principal da obra</div>
-                        <div class="error-message" id="area-principal-error">Informe a área principal</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="area-complementar-coberta">Área Complementar Coberta (m²)</label>
-                        <input type="number" id="area-complementar-coberta" name="area-complementar-coberta" min="0" step="0.01" placeholder="Ex: 50">
-                        <div class="info-text">* Área desmembrada da construção principal, pode ser uma área de lazer, um cômodo nos fundos, etc.</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="area-complementar-descoberta">Área Complementar Descoberta (m²)</label>
-                        <input type="number" id="area-complementar-descoberta" name="area-complementar-descoberta" min="0" step="0.01" placeholder="Ex: 30">
-                        <div class="info-text">* Área construída mas não anexa a área principal, uma piscina, por exemplo. </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="prev-step-2">← Voltar</button>
-                        <button type="button" class="btn btn-primary" id="next-step-2">Próximo →</button>
-                    </div>
-                </div>
-
-                <!-- Passo 3: Custos -->
-                <div class="form-step" id="step3-form">
-                    <div class="form-group">
-                        <label for="vau" class="required">VAU (Valor Unitário por metro construído)</label>
-                        <input type="number" id="vau" name="vau" min="0" step="0.01" required placeholder="R$ / m²" readonly style="background-color: #e8f5e9; font-weight: bold;">
-                        <div id="vau-auto-info" class="vau-auto"></div>
-                        <div class="info-text">VAU - Valor Atualizado Unitário</div>
-                        <div class="error-message" id="vau-error">Não foi possível obter o VAU para esta combinação</div>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="prev-step-3">← Voltar</button>
-                        <button type="button" class="btn btn-primary" id="next-step-3">Calcular →</button>
-                    </div>
-                </div>
-
-                <!-- Passo 4: Resultado -->
-                <div class="form-step" id="step4-form">
-                    <div class="highlight-section">
-                        <div class="highlight-title">
-                            - RESULTADO DA SIMULAÇÃO -
-                        </div>
-
-                        <div class="form-group">
-                            <label>Valor a ser pago SEM o Fator de Ajuste</label>
-                            <input type="text" id="valor-sem-ajuste" readonly style="font-size: 1.1rem; font-weight: bold; color: #e74c3c;">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Valor a ser pago COM o Fator de Ajuste</label>
-                            <input type="text" id="inss-devido" readonly style="font-size: 1.2rem; font-weight: bold; color: #27ae60;">
-                        </div>
-
-                        <div class="discount-badge" id="discount-badge">
-                            - ECONOMIA TOTAL -
-                            <span id="percentual-desconto">0%</span>
-                        </div>
-
-                        <div class="info-text" style="text-align: center; margin-top: 1rem;">
-                            * O Fator de Ajuste aplicado reduz significativamente os encargos previdenciários da obra.<br>
-							
-                        </div>
-						
-                    </div>
-					<p style="text-align: justify;">Este cálculo é apenas uma simulação. Entre em contato para obter assessoria profissional.</p>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="prev-step-4">← Voltar</button>
-                        <button type="button" class="btn btn-success" id="generate-pdf">📄 Gerar Relatório PDF</button>
-                    </div>
-                </div>
-            </form>
-
-            <div class="contact-info">
-    <a href="https://wa.me/5535999119922?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20o%20INSS%20de%20Obra." 
-       target="_blank" 
-       class="whatsapp-link">
-        WhatsApp: (35) 9 9911-9922
-    </a>
-    <span style="margin: 0 10px">|</span>
-    <span>contatoinssobra@gmail.com</span>
-</div>
         </div>
-    </div>
+    </header>
 
-    <script src="script.js"></script>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <p class="hero-badge">ESPECIALISTA EM REGULARIZAÇÃO DE OBRAS</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Welcome Section -->
+        <section class="welcome">
+            <div class="container">
+                <div class="welcome-content">
+                    <h1>OLÁ, SEJA BEM-VINDO!</h1>
+                    <p class="welcome-subtitle">Você está construindo ou reformando? Sabia que toda obra deve recolher um valor de INSS?</p>
+                    
+                    <div class="welcome-text">
+                        <p>Sempre que alguém solicita um alvará de construção, a Prefeitura é obrigada por lei a comunicar esse fato à Receita Federal, informando também o CPF ou CNPJ do responsável pela obra. Com isso, a Receita Federal passa a saber que existe uma construção em andamento, e essa obra estará sujeita à contribuição ao INSS, conforme diversos fatores.</p>
+                        
+                        <p>Suponha que sua obra já esteja em andamento. Nesse caso, é necessário gerar o CNO (Cadastro Nacional de Obras) para essa construção. Ao final da obra, com o Habite-se em mãos, você deverá realizar os devidos recolhimentos do INSS, para que a Receita Federal emita a CND (Certidão Negativa de Débitos).</p>
+                        
+                        <p>Se esses procedimentos não forem seguidos corretamente, você poderá sofrer diversas sanções — entre elas, a não emissão da CND, o que impedirá a averbação da construção no cartório de registro de imóveis da sua cidade, aviso de regularização de obra (ARO). Nesse documento, será estipulado um prazo para que você regularize a situação, realizando o pagamento do INSS calculado sobre a área total construída — e esse valor geralmente é elevado. Caso a regularização não ocorra, a multa pode chegar a até 225% do valor devido.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services">
+            <div class="container">
+                <div class="services-header">
+                    <h2>E O QUE NÓS FAZEMOS?</h2>
+                    <p class="services-subtitle">REALIZAMOS ESTE SERVIÇO PARA VOCÊ!</p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://lh3.googleusercontent.com/sitesv/APaQ0STIBPK2Sn2bN68JmzI3ear-IduMRigyVaW8MFv2tyJE7gfuDqKTOyFd9ykDpuiITqzBvPtP3dTAQM9Bf_42edHdBjUY-DNkuvboVw0WpjzQssSNzynIbmGXqZoS3F6wWkYJhtA2aZBQohJNNxmFCJj1yCRucVqydPHsghwdBtnNRiEmvm16Kj8iZ40=w1280" alt="Regularização" class="service-img">
+                        </div>
+                        <h3>REGULARIZAÇÃO</h3>
+                        <p>Obras em fase de finalização ou notificadas pela Receita Federal.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://lh3.googleusercontent.com/sitesv/APaQ0STBFCq1i1pP7EKEhqsXjvC3m69GodHMOYpK5_IqStp_V6lSZHcqWXv--PZEEi2HDN-nksLYIdSFZJ9lG5CurPypxBnDEvbVlMBVd-DZAui5o_aDAUXEjGod1_l72wyDu83cob0a8woXdVg-EtVSLkmYVxHJgyLGrj9Kpj8LWKt7IHpl-Via0J_ZB_aiHQi7BK-4RFss4sTVGpRlhQ4_jHJA7xrrUZmHU80Y=w1280" alt="Acompanhamento" class="service-img">
+                        </div>
+                        <h3>ACOMPANHAMENTO</h3>
+                        <p>Obras que irão se iniciar ou já se iniciaram.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://lh3.googleusercontent.com/sitesv/APaQ0SQpcfnA59mOxbLGWdUJ4gbkF0uLqyFzTygDRmdsTCKDoBfgEEwhEeepMU_QtIzM-Eyb78uZ29XITOp_-KP2cXaTc6erFa6bzz9rzi5zLZWxAMtpOlMjsReSpLqcOk-kPhVh2ybtmja_MPoJdG5ewJ3YInQ6J2i4_OyzynjDUe9VRY2AiFDRqLXB=w1280" alt="Consultoria" class="service-img">
+                        </div>
+                        <h3>CONSULTORIA</h3>
+                        <p>Consultoria de regularização. Simulação dos valores devidos e do desconto total.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>ENTRE EM CONTATO CONOSCO E SOLICITE UMA CONSULTORIA SEM COMPROMISSO</h2>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-nav">
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="calculadora.html">Calculadora</a></li>
+                    <li><a href="recibo.html">Recibo</a></li>
+                    <li><a href="duvidas.html">Dúvidas</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <p>Em caso de dúvidas entre em contato com nossa equipe.</p>
+                <p class="contact-links">
+                    <a href="https://wa.me/5535999119922?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20regularização%20de%20obras." class="whatsapp-link" target="_blank">WhatsApp: (35) 9 9911-9922</a>
+                    <span class="separator">|</span>
+                    <a href="mailto:contatoinssobra@gmail.com" class="email-link">contatoinssobra@gmail.com</a>
+                </p>
+            </div>
+            
+            <div class="footer-copyright">
+                <p>&copy; 2026 INSS Obra - Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+        }
+    </script>
 </body>
 </html>
