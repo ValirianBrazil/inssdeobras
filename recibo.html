@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibo de Pagamento | INSS Obra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="recibo.css">
+</head>
+<body>
+    <!-- Header / Navegação -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h2>INSS<span>Obra</span></h2>
+                </div>
+                <nav class="nav-menu">
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="calculadora.html">Calculadora</a></li>
+                        <li><a href="recibo.html" class="active">Recibo</a></li>
+                        <li><a href="duvidas.html">Dúvidas</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </nav>
+                <button class="mobile-menu-btn">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="recibo-section">
+            <div class="container recibo-container">
+                <div class="dashboard">
+                    <!-- COLUNA ESQUERDA: FORMULÁRIO -->
+                    <div class="form-section">
+                        <h2 class="form-title">📄 Dados do Recibo</h2>
+                        <div class="info-text">
+                            ⚠️ É importante preencher todos os campos.<br>
+                            Abaixo terá o campo para o CNO da obra, caso ainda não o tenha, poderá deixar em branco que não aparecerá no recibo.
+                        </div>
+
+                        <!-- 1. Dados do Profissional -->
+                        <div class="section-title">👷 Profissional Autônomo(a)</div>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label>Nome completo *</label>
+                                <input type="text" id="prof_nome" placeholder="Nome completo">
+                            </div>
+                            <div class="form-group">
+                                <label>Nacionalidade</label>
+                                <input type="text" id="prof_nacionalidade" value="brasileiro(a)">
+                            </div>
+                            <div class="form-group">
+                                <label>Estado civil</label>
+                                <select id="prof_estado_civil">
+                                    <option value="">Selecione</option>
+                                    <option>solteiro(a)</option>
+                                    <option>casado(a)</option>
+                                    <option>divorciado(a)</option>
+                                    <option>viúvo(a)</option>
+                                    <option>união estável</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Natural (cidade)</label>
+                                <input type="text" id="prof_cidade_natural">
+                            </div>
+                            <div class="form-group">
+                                <label>UF natural</label>
+                                <select id="prof_uf_natural">
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG" selected>MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Data nascimento</label>
+                                <input type="date" id="prof_nascimento">
+                            </div>
+                            <div class="form-group">
+                                <label>Função</label>
+                                <select id="prof_funcao">
+                                    <option value="">Selecione</option>
+                                    <option>pedreiro autônomo</option>
+                                    <option>eletricista autônomo</option>
+                                    <option>encanador autônomo</option>
+                                    <option>carpinteiro autônomo</option>
+                                    <option>pintor autônomo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>CPF</label>
+                                <input type="text" id="prof_cpf" placeholder="000.000.000-00" maxlength="14">
+                            </div>
+                            <div class="form-group">
+                                <label>RG</label>
+                                <input type="text" id="prof_rg" placeholder="Nº RG">
+                            </div>
+                            <div class="form-group">
+                                <label>UF do RG</label>
+                                <select id="prof_uf_rg">
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG" selected>MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Logradouro (rua, avenida, praça, etc.)</label>
+                                <input type="text" id="prof_rua">
+                            </div>
+                            <div class="form-group">
+                                <label>Número</label>
+                                <input type="text" id="prof_numero">
+                            </div>
+                            <div class="form-group">
+                                <label>Bairro</label>
+                                <input type="text" id="prof_bairro">
+                            </div>
+                            <div class="form-group">
+                                <label>Cidade</label>
+                                <input type="text" id="prof_cidade">
+                            </div>
+                            <div class="form-group">
+                                <label>UF</label>
+                                <select id="prof_uf">
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG" selected>MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Grau de escolaridade</label>
+                                <select id="prof_escolaridade">
+                                    <option value="">Selecione</option>
+                                    <option value="analfabeto">analfabeto</option>
+                                    <option value="alfabetizado (lê e escreve)">alfabetizado (lê e escreve)</option>
+                                    <option value="ensino fundamental">ensino fundamental</option>
+                                    <option value="ensino médio incompleto">ensino médio incompleto</option>
+                                    <option value="ensino médio completo">ensino médio completo</option>
+                                    <option value="superior incompleto">superior incompleto</option>
+                                    <option value="superior completo">superior completo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Cor/Raça (auto declarada)</label>
+                                <select id="prof_cor">
+                                    <option value="">Selecione</option>
+                                    <option value="branca">branca</option>
+                                    <option value="preta">preta</option>
+                                    <option value="parda">parda</option>
+                                    <option value="amarela">amarela</option>
+                                    <option value="indígena">indígena</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 2. Contratante -->
+                        <div class="section-title">🧑‍💼 Dados do Contratante</div>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label>Nome completo</label>
+                                <input type="text" id="cont_nome">
+                            </div>
+                            <div class="form-group">
+                                <label>Nacionalidade</label>
+                                <input type="text" id="cont_nacionalidade" value="brasileiro(a)">
+                            </div>
+                            <div class="form-group">
+                                <label>Estado civil</label>
+                                <select id="cont_estado_civil">
+                                    <option value="">Selecione</option>
+                                    <option>solteiro(a)</option>
+                                    <option>casado(a)</option>
+                                    <option>divorciado(a)</option>
+                                    <option>viúvo(a)</option>
+                                    <option>união estável</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Profissão</label>
+                                <input type="text" id="cont_profissao">
+                            </div>
+                            <div class="form-group">
+                                <label>CPF</label>
+                                <input type="text" id="cont_cpf" placeholder="000.000.000-00" maxlength="14">
+                            </div>
+                            <div class="form-group">
+                                <label>RG</label>
+                                <input type="text" id="cont_rg">
+                            </div>
+                            <div class="form-group">
+                                <label>UF do RG</label>
+                                <select id="cont_uf_rg">
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG" selected>MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Logradouro (rua, avenida, praça, etc.)</label>
+                                <input type="text" id="cont_rua">
+                            </div>
+                            <div class="form-group">
+                                <label>Número</label>
+                                <input type="text" id="cont_numero">
+                            </div>
+                            <div class="form-group">
+                                <label>Bairro</label>
+                                <input type="text" id="cont_bairro">
+                            </div>
+                            <div class="form-group">
+                                <label>Cidade</label>
+                                <input type="text" id="cont_cidade">
+                            </div>
+                            <div class="form-group">
+                                <label>UF</label>
+                                <select id="cont_uf">
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG" selected>MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 3. Endereço da Obra + CNO opcional -->
+                        <div class="section-title">🏗️ Endereço da Obra</div>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <button type="button" id="copyEnderecoBtn" class="btn-copy">📋 Copiar endereço do(a) contratante</button>
+                            </div>
+                            <div class="form-group">
+                                <label>Logradouro (rua, avenida, praça, etc.)</label>
+                                <input type="text" id="obra_rua">
+                            </div>
+                            <div class="form-group">
+                                <label>Número</label>
+                                <input type="text" id="obra_numero">
+                            </div>
+                            <div class="form-group">
+                                <label>Bairro</label>
+                                <input type="text" id="obra_bairro">
+                            </div>
+                            <div class="form-group">
+                                <label>Cidade</label>
+                                <input type="text" id="obra_cidade">
+                            </div>
+                            <div class="form-group">
+                                <label>UF</label>
+                                <select id="obra_uf">
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG" selected>MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>CNO (opcional)</label>
+                                <input type="text" id="obra_cno" placeholder="12.34.56789/12" maxlength="16">
+                            </div>
+                        </div>
+
+                        <!-- 4. Valor e Período -->
+                        <div class="section-title">💰 Valor e Período</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Valor recebido (R$)</label>
+                                <input type="text" id="valor_recebido" placeholder="0,00">
+                            </div>
+                            <div class="form-group">
+                                <label>Data de início (dd/mm/aaaa)</label>
+                                <input type="date" id="data_inicio">
+                            </div>
+                            <div class="form-group">
+                                <label>Data de término (dd/mm/aaaa) → data da assinatura</label>
+                                <input type="date" id="data_termino">
+                            </div>
+                        </div>
+                        <p class="form-note">* A cidade da assinatura será igual à cidade da obra. A data da assinatura será exatamente a data de término informada.</p>
+                    </div>
+
+                    <!-- COLUNA DIREITA: PREVIEW -->
+                    <div class="preview-section">
+                        <div class="preview-header">
+                            <span>📄 Visualização do Recibo (A4 retrato)</span>
+                            <button class="btn-print" id="imprimirBtn">🖨️ Imprimir / Exportar PDF</button>
+                        </div>
+                        <div class="print-note">
+                            📌 Obs.: ao gerar o arquivo para impressão, desmarque a opção "Cabeçalho e Rodapé" na tela de impressão.
+                        </div>
+                        <div class="recibo-paper" id="reciboPaper">
+                            <div class="recibo-content" id="reciboDinamico">
+                                <!-- O conteúdo será injetado dinamicamente via JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- CALENDÁRIO ABAIXO DO RECIBO -->
+                        <div class="calendar-container" id="calendarContainer">
+                            <div class="calendar-header">
+                                <h3 id="calendarMonthYear">Março 2026</h3>
+                                <div class="calendar-header-controls">
+                                    <select id="yearSelector" class="year-selector"></select>
+                                    <div class="calendar-nav">
+                                        <button id="prevMonthBtn">◀</button>
+                                        <button id="nextMonthBtn">▶</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid"></div>
+                            <div class="event-legend">
+                                <span><span class="weekday-badge"></span> Dias úteis</span>
+                            </div>
+                            <div class="calendar-placeholder">
+                                Lembre-se, ao gerar os recibos optar sempre por dias úteis.<br>
+                                Feito por Herman Pedroso | 2026.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-nav">
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="calculadora.html">Calculadora</a></li>
+                    <li><a href="recibo.html">Recibo</a></li>
+                    <li><a href="duvidas.html">Dúvidas</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <p>Em caso de dúvidas entre em contato com nossa equipe.</p>
+                <p class="contact-links">
+                    <a href="https://wa.me/5535999119922?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20regularização%20de%20obras." class="whatsapp-link" target="_blank">WhatsApp: (35) 9 9911-9922</a>
+                    <span class="separator">|</span>
+                    <a href="mailto:contatoinssobra@gmail.com" class="email-link">contatoinssobra@gmail.com</a>
+                </p>
+            </div>
+            
+            <div class="footer-copyright">
+                <p>&copy; 2026 INSS Obra - Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="recibo.js"></script>
+    <script>
+        // Mobile menu toggle
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>

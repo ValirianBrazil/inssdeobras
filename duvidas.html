@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dúvidas Frequentes | INSS Obra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para a página de dúvidas */
+        .faq-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .faq-header h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .faq-header p {
+            font-size: 18px;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+        }
+
+        .faq-item {
+            background: #ffffff;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .faq-item:hover {
+            border-color: #1976d2;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.1);
+        }
+
+        .faq-pergunta {
+            padding: 20px 24px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            color: #1e293b;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .faq-pergunta:hover {
+            background: #f8fafc;
+        }
+
+        .faq-pergunta .question-text {
+            flex: 1;
+        }
+
+        .faq-pergunta .icon {
+            font-size: 24px;
+            font-weight: 300;
+            color: #1976d2;
+            transition: transform 0.3s ease;
+            width: 24px;
+            text-align: center;
+        }
+
+        .faq-pergunta.active .icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-resposta {
+            display: none;
+            padding: 0 24px 24px 24px;
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.6;
+            border-top: 1px solid #e2e8f0;
+            background: #fafcff;
+        }
+
+        .faq-resposta.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .faq-resposta strong {
+            color: #1976d2;
+        }
+
+        .faq-resposta a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+
+        .faq-resposta a:hover {
+            text-decoration: underline;
+        }
+
+        .faq-stats {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .faq-container {
+                padding: 20px;
+            }
+            
+            .faq-header h1 {
+                font-size: 32px;
+            }
+            
+            .faq-header p {
+                font-size: 16px;
+            }
+            
+            .faq-pergunta {
+                padding: 16px 20px;
+                font-size: 1rem;
+            }
+            
+            .faq-resposta {
+                padding: 0 20px 20px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .faq-pergunta {
+                padding: 14px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .faq-resposta {
+                padding: 0 16px 16px 16px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header / Navegação -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h2>INSS<span>Obra</span></h2>
+                </div>
+                <nav class="nav-menu">
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="calculadora.html">Calculadora</a></li>
+                        <li><a href="recibo.html">Recibo</a></li>
+                        <li><a href="duvidas.html" class="active">Dúvidas</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </nav>
+                <button class="mobile-menu-btn">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="faq-section">
+            <div class="container">
+                <div class="faq-header">
+                    <h1>📋 Dúvidas Frequentes</h1>
+                    <p>Tire suas dúvidas sobre o INSS de obras e descubra como economizar nos encargos previdenciários</p>
+                </div>
+
+                <div class="faq-container">
+                    <!-- FAQ 1 -->
+                    <div class="faq-item">
+                        <div class="faq-pergunta">
+                            <span class="question-text">1. O INSS de obras é obrigatório?</span>
+                            <span class="icon">+</span>
+                        </div>
+                        <div class="faq-resposta">
+                            <p>Sim. Toda obra de construção civil deve recolher um valor referente ao INSS (Contribuição Previdenciária Patronal - CPP), de acordo com a área total construída e outros fatores como destinação da obra e método construtivo.</p>
+                            <p style="margin-top: 8px;">A obrigatoriedade está prevista na legislação previdenciária e o não recolhimento pode gerar multas e impedimentos para averbação da obra no cartório de registro de imóveis.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="faq-item">
+                        <div class="faq-pergunta">
+                            <span class="question-text">2. Nunca recolhi INSS de obra. Por que agora terei que pagar?</span>
+                            <span class="icon">+</span>
+                        </div>
+                        <div class="faq-resposta">
+                            <p>Com a mudança promovida pela Instrução Normativa RFB nº 20/21 da Receita Federal, todo projeto de construção passou a ficar vinculado à Receita Federal do Brasil por meio do Sistema de Aferição de Obras (SERO).</p>
+                            <p style="margin-top: 8px;">As prefeituras são obrigadas por lei a informar os alvarás liberados, permitindo que a Receita Federal cruze essas informações e cobre o INSS da construção a qualquer momento.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="faq-item">
+                        <div class="faq-pergunta">
+                            <span class="question-text">3. Se eu não pagar o INSS, o que pode acontecer?</span>
+                            <span class="icon">+</span>
+                        </div>
+                        <div class="faq-resposta">
+                            <p>Caso o INSS não seja quitado, o proprietário poderá ser notificado pela Receita Federal para regularizar a situação. Se não houver regularização no prazo estipulado, as consequências incluem:</p>
+                            <ul style="margin-top: 8px; padding-left: 20px;">
+                                <li>Multa de até 225% do valor devido</li>
+                                <li>Impedimento para averbação da obra no cartório</li>
+                                <li>Inclusão em dívida ativa da União</li>
+                                <li>Restrições para obtenção de financiamentos</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="faq-item">
+                        <div class="faq-pergunta">
+                            <span class="question-text">4. Terminei uma obra há muito tempo. Ainda assim tenho que pagar o INSS?</span>
+                            <span class="icon">+</span>
+                        </div>
+                        <div class="faq-resposta">
+                            <p>Sim. Porém, há a possibilidade de o débito prescrever antes de haver notificação da Receita Federal. O prazo prescricional é de 5 anos a partir da data de início da obra.</p>
+                            <p style="margin-top: 8px;">Importante: a Receita Federal considera o início do prazo prescricional somente no ano seguinte ao que completar os 5 anos. Por exemplo, uma obra iniciada em 2020 teria prescrição a partir de 2026.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 5 -->
+                    <div class="faq-item">
+                        <div class="faq-pergunta">
+                            <span class="question-text">5. Qual é o prazo de prescrição?</span>
+                            <span class="icon">+</span>
+                        </div>
+                        <div class="faq-resposta">
+                            <p>O prazo é de <strong>5 anos</strong> a partir da data de início da obra. É importante saber que a Receita Federal considera o início do prazo prescricional somente no ano seguinte ao que completar os 5 anos.</p>
+                            <p style="margin-top: 8px;"><strong>Exemplo prático:</strong> Obra iniciada em 2020 → completaria 5 anos em 2025 → a contagem para prescrição começaria em 2026.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 6 -->
+                    <div class="faq-item">
+                        <div class="faq-pergunta">
+                            <span class="question-text">6. Como posso recolher o INSS da minha obra?</span>
+                            <span class="icon">+</span>
+                        </div>
+                        <div class="faq-resposta">
+                            <p>Primeiro passo é entrar em contato conosco que faremos uma simulação sem compromisso. Nós faremos todo o procedimento de regularização de sua obra junto à Receita Federal, incluíndo:</p>
+                            <ol style="margin-top: 8px; padding-left: 20px;">
+                                <li>Criação do CNO (Cadastro Nacional de Obras);</li>
+                                <li>Cálculo do valor devido conforme as características da obra;</li>
+								<li>Programação dos recolhimentos durante a obra;</li>
+                                <li>Aplicação do Fator de Ajuste para redução legal do valor;</li>
+                                <li>Emissão da CND/CPEND;</li>
+                            </ol>
+                            <p style="margin-top: 8px;">Entre em contato com nossa equipe e solicite uma simulação sem compromisso para analisarmos o seu caso e realizarmos todo o processo para você.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 7 -->
+                    <div class="faq-item">
+                        <div class="faq-pergunta">
+                            <span class="question-text">7. Existe algum desconto no INSS da obra?</span>
+                            <span class="icon">+</span>
+                        </div>
+                        <div class="faq-resposta">
+                            <p><strong>Sim!</strong> Para obras realizadas por pessoa física é possível reduzir o valor cobrado pela Receita Federal em até 70%, de forma totalmente legal e segura.</p>
+                            <p style="margin-top: 8px;">Esse desconto é previsto nos próprios normativos da Receita Federal e é aplicado através do <strong>Fator de Ajuste</strong>, que considera a área total da obra para definir o percentual de redução.</p>
+                            <p style="margin-top: 8px;">Utilize nossa <a href="calculadora.html">Calculadora de INSS</a> para simular o desconto aplicável à sua obra.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 8 -->
+                    <div class="faq-item">
+                        <div class="faq-pergunta">
+                            <span class="question-text">8. Quando devo iniciar o recolhimento do INSS da obra?</span>
+                            <span class="icon">+</span>
+                        </div>
+                        <div class="faq-resposta">
+                            <p>O ideal é iniciar o recolhimento desde o começo da obra. Assim, o desconto será o maior possível e você evita possíveis notificações da Receita Federal.</p>
+                            <p style="margin-top: 8px;">Se a obra já está em andamento ou já foi concluída, ainda é possível regularizar a situação e aplicar o Fator de Ajuste para reduzir o valor devido. Quanto antes você regularizar, maior será a economia.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 9 -->
+                    <div class="faq-item">
+                        <div class="faq-pergunta">
+                            <span class="question-text">9. Fui notificado pela Receita Federal. O que devo fazer?</span>
+                            <span class="icon">+</span>
+                        </div>
+                        <div class="faq-resposta">
+                            <p>Se você já foi notificado pela Receita Federal, <strong>não entre em pânico</strong>. Ainda é possível reduzir substancialmente o valor devido através da aplicação do Fator de Ajuste.</p>
+                            <p style="margin-top: 8px;">Os passos recomendados são:</p>
+                            <ol style="margin-top: 8px; padding-left: 20px;">
+                                <li>Não ignore a notificação;</li>
+                                <li>Entre em contato com nossa equipe imediatamente.</li>
+                                
+                            </ol>
+                            <p style="margin-top: 8px;">Nossa equipe está preparada para auxiliar em todo o processo de regularização, garantindo a aplicação dos descontos legais.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 10 -->
+                    <div class="faq-item">
+                        <div class="faq-pergunta">
+                            <span class="question-text">10. Meu contador disse que não tem como reduzir o INSS da obra. Isso é verdade?</span>
+                            <span class="icon">+</span>
+                        </div>
+                        <div class="faq-resposta">
+                            <p><strong>Não é verdade.</strong> Desde que sua obra esteja enquadrada nos requisitos estabelecidos pela Receita Federal, é sim possível reduzir o valor devido através do Fator de Ajuste.</p>
+                            <p style="margin-top: 8px;">Muitos contadores não estão familiarizados com a legislação específica do INSS para obras de construção civil, que permite a redução significativa dos encargos previdenciários.</p>
+                            <p style="margin-top: 8px;">Nós somos especializados nesse segmento e podemos ajudar você a aplicar corretamente o Fator de Ajuste e obter a redução legal a que sua obra tem direito.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-stats">
+                        <p>📊 Encontrou o que procurava? Se sua dúvida não foi respondida, <a href="contato.html">entre em contato conosco</a> para atendimento personalizado.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-nav">
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="calculadora.html">Calculadora</a></li>
+                    <li><a href="recibo.html">Recibo</a></li>
+                    <li><a href="duvidas.html">Dúvidas</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <p>Em caso de dúvidas entre em contato com nossa equipe.</p>
+                <p class="contact-links">
+                    <a href="https://wa.me/5535999119922?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20regularização%20de%20obras." class="whatsapp-link" target="_blank">WhatsApp: (35) 9 9911-9922</a>
+                    <span class="separator">|</span>
+                    <a href="mailto:contatoinssobra@gmail.com" class="email-link">contatoinssobra@gmail.com</a>
+                </p>
+            </div>
+            
+            <div class="footer-copyright">
+                <p>&copy; 2026 INSS Obra - Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        // FAQ Accordion functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const pergunta = item.querySelector('.faq-pergunta');
+            const resposta = item.querySelector('.faq-resposta');
+            const icon = pergunta.querySelector('.icon');
+            
+            pergunta.addEventListener('click', () => {
+                // Toggle active class on the current item
+                const isActive = pergunta.classList.contains('active');
+                
+                // Close all other items
+                faqItems.forEach(otherItem => {
+                    const otherPergunta = otherItem.querySelector('.faq-pergunta');
+                    const otherResposta = otherItem.querySelector('.faq-resposta');
+                    const otherIcon = otherPergunta.querySelector('.icon');
+                    
+                    if (otherItem !== item) {
+                        otherPergunta.classList.remove('active');
+                        otherResposta.classList.remove('show');
+                        if (otherIcon) otherIcon.textContent = '+';
+                    }
+                });
+                
+                // Toggle current item
+                if (isActive) {
+                    pergunta.classList.remove('active');
+                    resposta.classList.remove('show');
+                    if (icon) icon.textContent = '+';
+                } else {
+                    pergunta.classList.add('active');
+                    resposta.classList.add('show');
+                    if (icon) icon.textContent = '−';
+                }
+            });
+        });
+
+        // Optional: Open first FAQ by default for better UX
+        if (faqItems.length > 0) {
+            const firstPergunta = faqItems[0].querySelector('.faq-pergunta');
+            const firstResposta = faqItems[0].querySelector('.faq-resposta');
+            const firstIcon = firstPergunta.querySelector('.icon');
+            
+            firstPergunta.classList.add('active');
+            firstResposta.classList.add('show');
+            if (firstIcon) firstIcon.textContent = '−';
+        }
+    </script>
+</body>
+</html>
