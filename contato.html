@@ -8,7 +8,239 @@
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
-        /* Estilos adicionais para o formulário de contato */
+        /* Estilos específicos da página de contato */
+        .contato-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+
+        .contato-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contato-info {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .contato-info h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+        }
+
+        .contato-info > p {
+            color: #64748b;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .info-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateX(4px);
+            background: #f1f5f9;
+        }
+
+        .info-icon {
+            width: 48px;
+            height: 48px;
+            background: #1976d2;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .info-content h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .info-content p, .info-content a {
+            color: #475569;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            line-height: 1.5;
+        }
+
+        .info-content a:hover {
+            color: #1976d2;
+        }
+
+        .horario {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .horario h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 16px;
+        }
+
+        .horario-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .contato-form {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .contato-form h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+
+        .contato-form > p {
+            color: #64748b;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .form-group label .required {
+            color: #e74c3c;
+            margin-left: 4px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .file-upload {
+            position: relative;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-label:hover {
+            background: #f1f5f9;
+            border-color: #1976d2;
+        }
+
+        .file-upload-icon {
+            font-size: 20px;
+        }
+
+        .file-upload-text {
+            color: #475569;
+            font-size: 0.85rem;
+        }
+
+        .file-name {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .btn-enviar {
+            width: 100%;
+            padding: 14px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .btn-enviar:hover {
+            background: #1565c0;
+            transform: translateY(-2px);
+        }
+
+        .btn-enviar:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .status-message {
             margin-top: 20px;
             padding: 12px 16px;
@@ -37,6 +269,59 @@
             color: #383d41;
             border: 1px solid #d6d8db;
             display: block;
+        }
+
+        .mapa {
+            margin-top: 60px;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .mapa iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+        }
+
+        .mapa-info {
+            padding: 20px 32px;
+            text-align: center;
+            background: #f8fafc;
+        }
+
+        .mapa-info p {
+            color: #475569;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 968px) {
+            .contato-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .contato-info, .contato-form {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .info-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .info-icon {
+                margin: 0 auto;
+            }
+            
+            .horario-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 4px;
+            }
         }
     </style>
 </head>
@@ -266,7 +551,7 @@
         // ============================================
         // CONFIGURAÇÃO DO EMAILJS
         // ============================================
-        // SUBSTITUA ESTES VALORES PELOS SEUS:
+        // IMPORTANTE: Substitua pelos seus dados do EmailJS
         const EMAILJS_CONFIG = {
             PUBLIC_KEY: "SUA_PUBLIC_KEY_AQUI",     // Cole sua Public Key do EmailJS
             SERVICE_ID: "service_xxxxxxx",          // Cole seu Service ID
@@ -280,96 +565,84 @@
         const submitBtn = document.getElementById('submitBtn');
         const statusDiv = document.getElementById('statusMessage');
 
-        // Função para mostrar mensagem de sucesso e redirecionar
         function showSuccessAndRedirect() {
-            // Mostrar mensagem de sucesso
             statusDiv.className = 'status-message success';
             statusDiv.innerHTML = '✅ Mensagem enviada com sucesso! Redirecionando...';
             
-            // Desabilitar botão
             submitBtn.disabled = true;
             submitBtn.textContent = '📤 Enviado!';
             
-            // Redirecionar após 2 segundos
             setTimeout(() => {
                 window.location.href = 'contato.html?sucesso=true';
             }, 2000);
         }
 
-        // Função para mostrar erro
         function showError(message) {
             statusDiv.className = 'status-message error';
             statusDiv.innerHTML = message || '❌ Erro ao enviar mensagem. Tente novamente ou entre em contato pelo WhatsApp.';
             
-            // Limpar mensagem após 5 segundos
             setTimeout(() => {
                 statusDiv.className = 'status-message';
                 statusDiv.innerHTML = '';
             }, 5000);
         }
 
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Desabilitar botão e mostrar loading
-            submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ Enviando...';
-            statusDiv.className = 'status-message loading';
-            statusDiv.innerHTML = 'Enviando sua mensagem...';
-            
-            try {
-                // Coletar dados do formulário
-                const templateParams = {
-                    from_name: document.getElementById('nome').value,
-                    from_email: document.getElementById('email').value,
-                    telefone: document.getElementById('telefone').value,
-                    assunto: document.getElementById('assunto').value,
-                    mensagem: document.getElementById('mensagem').value,
-                    newsletter: document.querySelector('input[name="newsletter"]')?.checked ? 'Sim' : 'Não',
-                    to_email: 'contatoinssobra@gmail.com',
-                    data_envio: new Date().toLocaleString('pt-BR')
-                };
+        if (form) {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
                 
-                // Enviar e-mail
-                const response = await emailjs.send(
-                    EMAILJS_CONFIG.SERVICE_ID,
-                    EMAILJS_CONFIG.TEMPLATE_ID,
-                    templateParams
-                );
+                submitBtn.disabled = true;
+                submitBtn.textContent = '⏳ Enviando...';
+                statusDiv.className = 'status-message loading';
+                statusDiv.innerHTML = 'Enviando sua mensagem...';
                 
-                if (response.status === 200) {
-                    // Limpar formulário
-                    form.reset();
-                    fileNameSpan.textContent = '';
+                try {
+                    const templateParams = {
+                        from_name: document.getElementById('nome').value,
+                        from_email: document.getElementById('email').value,
+                        telefone: document.getElementById('telefone').value,
+                        assunto: document.getElementById('assunto').value,
+                        mensagem: document.getElementById('mensagem').value,
+                        newsletter: document.querySelector('input[name="newsletter"]')?.checked ? 'Sim' : 'Não',
+                        to_email: 'contatoinssobra@gmail.com',
+                        data_envio: new Date().toLocaleString('pt-BR')
+                    };
                     
-                    // Mostrar sucesso e redirecionar
-                    showSuccessAndRedirect();
-                } else {
-                    throw new Error('Erro no envio');
+                    const response = await emailjs.send(
+                        EMAILJS_CONFIG.SERVICE_ID,
+                        EMAILJS_CONFIG.TEMPLATE_ID,
+                        templateParams
+                    );
+                    
+                    if (response.status === 200) {
+                        form.reset();
+                        if (fileNameSpan) fileNameSpan.textContent = '';
+                        showSuccessAndRedirect();
+                    } else {
+                        throw new Error('Erro no envio');
+                    }
+                    
+                } catch (error) {
+                    console.error('Erro:', error);
+                    showError('❌ Erro ao enviar mensagem. Tente novamente ou entre em contato pelo WhatsApp.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '📤 Enviar Mensagem';
                 }
-                
-            } catch (error) {
-                console.error('Erro:', error);
-                showError('❌ Erro ao enviar mensagem. Tente novamente ou entre em contato pelo WhatsApp.');
-                
-                // Reativar botão
-                submitBtn.disabled = false;
-                submitBtn.textContent = '📤 Enviar Mensagem';
-            }
-        });
+            });
+        }
 
-        // Verificar se o formulário foi enviado com sucesso via URL
         if (window.location.search.includes('sucesso=true')) {
-            // Mostrar mensagem de sucesso ao voltar para a página
             const successDiv = document.createElement('div');
             successDiv.className = 'status-message success';
             successDiv.innerHTML = '✅ Mensagem enviada com sucesso! Entraremos em contato em breve.';
-            statusDiv.parentNode.insertBefore(successDiv, statusDiv);
-            
-            // Remover o parâmetro da URL sem recarregar a página
-            setTimeout(() => {
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }, 100);
+            const statusContainer = document.getElementById('statusMessage');
+            if (statusContainer && statusContainer.parentNode) {
+                statusContainer.parentNode.insertBefore(successDiv, statusContainer);
+                setTimeout(() => {
+                    successDiv.remove();
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 5000);
+            }
         }
     </script>
 </body>
