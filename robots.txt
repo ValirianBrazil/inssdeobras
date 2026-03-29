@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://inssdeobras.netlify.app/sitemap.xml
