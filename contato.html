@@ -353,7 +353,7 @@
                         </div>
                     </div>
 
-                    <!-- Formulário de contato sem anexo -->
+                    <!-- Formulário de contato -->
                     <div class="contato-form">
                         <h2>✉️ Envie uma Mensagem</h2>
                         <p>Preencha o formulário abaixo e retornaremos o mais breve possível</p>
@@ -393,7 +393,13 @@
                                 <textarea id="mensagem" name="mensagem" required placeholder="Descreva sua dúvida ou solicitação..."></textarea>
                             </div>
 
-                           
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="newsletter" value="sim">
+                                    Desejo receber novidades e informações por e-mail
+                                </label>
+                            </div>
+
                             <button type="submit" class="btn-enviar" id="submitBtn">📤 Enviar Mensagem</button>
                             
                             <div id="statusMessage" class="status-message"></div>
@@ -401,14 +407,12 @@
                     </div>
                 </div>
 
+                <!-- Mapa com endereço personalizado -->
                 <div class="mapa">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3746058.4932647073!2d-47.59595645!3d-22.695828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c8c4b0d0b4d8c3%3A0x8b5e5b5b5b5b5b5b!2sMinas%20Gerais!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" 
-                        allowfullscreen="" 
-                        loading="lazy">
-                    </iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5281.381430530114!2d-46.61458484142336!3d-20.722983360507765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b6c30654fb500f%3A0xd9a083fc429f38ae!2sINSS%20DE%20OBRAS!5e1!3m2!1spt-BR!2sbr!4v1774788469809!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     <div class="mapa-info">
-                        <p>📍 Atendemos todo o Brasil de forma remota e presencial em Minas Gerais mediante agendamento</p>
+                        <p>📍 <strong>Endereço:</strong> Rua Dr. Saturnino, 461 - Centro - Passos/MG</p>
+                        <p>📞 (35) 99911-9922 | ✉️ contatoinssobra@gmail.com</p>
                     </div>
                 </div>
             </div>
@@ -432,7 +436,7 @@
                 <p class="contact-links">
                     <a href="https://wa.me/5535999119922?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20regularização%20de%20obras." class="whatsapp-link" target="_blank">WhatsApp: (35) 9 9911-9922</a>
                     <span class="separator">|</span>
-                    <a href="mailto:contatoinssobra@gmail.com" class="email-link">email-link</a>
+                    <a href="mailto:contatoinssobra@gmail.com" class="email-link">contatoinssobra@gmail.com</a>
                 </p>
             </div>
             
@@ -453,18 +457,30 @@
             });
         }
 
-        // Máscara para telefone
+        // ============================================
+        // MÁSCARA PARA TELEFONE CELULAR (xx) xxxxx-xxxx
+        // ============================================
         const telefoneInput = document.getElementById('telefone');
         if (telefoneInput) {
             telefoneInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
+                let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
+                
+                // Limitar a 11 dígitos (DDD + 9 dígitos)
+                if (value.length > 11) {
+                    value = value.slice(0, 11);
+                }
+                
+                // Aplicar máscara (xx) xxxxx-xxxx
                 if (value.length >= 11) {
                     value = value.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
                 } else if (value.length >= 7) {
                     value = value.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
                 } else if (value.length >= 3) {
                     value = value.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+                } else if (value.length >= 2) {
+                    value = value.replace(/^(\d{2})/, '($1');
                 }
+                
                 e.target.value = value;
             });
         }
